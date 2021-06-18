@@ -1,14 +1,14 @@
 (ns phone-number)
 
 (defn string->digits
-  "Cleans up a phone number and returns its digits list."
+  "Cleans up a phone number and returns a seq of its digits."
   [num-string]
   (let [char->int (map int num-string)
         cleaned (filter #(<= 48 (int %) 57) char->int)]
     (map #(- % 48) cleaned)))
 
 (defn- number-10digit
-  "Returns \"0000000000\" if the digits list does not represent
+  "Returns \"0000000000\" if the digits seq does not represent
   a valid 10 digit phone number, else it returns the phone number."
   [digits]
   (if (or (< (first digits) 2)
@@ -17,7 +17,7 @@
     (apply str digits)))
 
 (defn- number-11digit
-  "Returns \"0000000000\" if the digits list does not represent
+  "Returns \"0000000000\" if the digits seq does not represent
   a valid 11 digit phone number, else it returns the phone number."
   [digits]
   (if (not= 1 (first digits))
@@ -25,7 +25,7 @@
     (number-10digit (rest digits))))
 
 (defn number
-  "Returns \"0000000000\" if the digits list does not represent
+  "Returns \"0000000000\" if the digits seq does not represent
   a valid phone number, else it returns the phone number."
   [num-string]
   (let [digits (string->digits num-string)
