@@ -23,7 +23,7 @@
         digit-count (count digits)]
     (loop [sum 0
            [first-digit & remaining-digits] digits]
-      (if (boolean first-digit)
+      (if first-digit
         (recur (+ sum (math-pow first-digit digit-count))
                remaining-digits)
         (= sum n)))))

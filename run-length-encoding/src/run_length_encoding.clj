@@ -49,7 +49,7 @@
   [cipher-text]
   (loop [result []
          [x & more] (split-cipher-text cipher-text)]
-    (if (boolean x)
+    (if x
       (if (int? x)
         (recur (into result (decompress-str x (first more)))
                (rest more))

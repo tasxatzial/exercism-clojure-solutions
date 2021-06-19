@@ -12,7 +12,7 @@
   (if (not= (count isbn-left) 9)
     false
     (loop [[digit & more] isbn-left]
-      (if (boolean digit)
+      (if digit
         (if (<= 48 (int digit) 57)
           (recur more)
           false)
