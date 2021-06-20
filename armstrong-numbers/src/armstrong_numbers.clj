@@ -3,8 +3,8 @@
 (defn int->digits
   "Converts an integer to a seq of its digits."
   [s]
-  (map #(Integer/parseInt %)
-       (clojure.string/split (str s) #"")))
+  (map #(Character/digit ^char % 10)
+       (str s)))
 
 (defn math-pow
   "Calculates x^n."
@@ -16,14 +16,17 @@
       (recur (* x result)
              (dec remaining)))))
 
+(defn digits-sum
+  "Returns the sum of the N-th powers of the digits seq where
+  N is the size of the digits seq."
+  [digits]
+  (reduce #(+ (math-pow %2 (count digits)) %1)
+          0
+          digits))
+
 (defn armstrong?
   "Determines whether a number is an Armstrong number."
   [n]
   (let [digits (int->digits n)
-        digit-count (count digits)]
-    (loop [sum 0
-           [first-digit & remaining-digits] digits]
-      (if first-digit
-        (recur (+ sum (math-pow first-digit digit-count))
-               remaining-digits)
-        (= sum n)))))
+        sum (digits-sum digits)]
+    (= n sum)))
