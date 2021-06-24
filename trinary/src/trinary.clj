@@ -12,8 +12,8 @@
   (every? #(<= 0 % 2) digits))
 
 (defn compute-val
-  "Returns the decimal value of a trinary number represented
-  by a seq of its digits."
+  "Returns the decimal value of a trinary number. The number is
+  represented by a seq of its digits."
   [digits]
   (+ (reduce (fn [result digit]
                (* 3 (+ result digit)))

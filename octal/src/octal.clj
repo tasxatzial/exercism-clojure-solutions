@@ -13,7 +13,7 @@
 
 (defn compute-val
   "Returns the decimal value of a octal number. The number is
-  represented by a seq of its decimal digit values."
+  represented by a seq of its digits."
   [digits]
   (+ (reduce (fn [result digit]
                (* 8 (+ result digit)))
