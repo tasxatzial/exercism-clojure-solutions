@@ -30,8 +30,7 @@
     (loop [result '()
            num n]
       (if (= num 0)
-        (or (seq result)
-            '(0))
+        (or (seq result) '(0))
         (recur (cons (rem num out-base) result)
                (quot num out-base))))))
 

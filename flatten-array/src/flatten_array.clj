@@ -4,10 +4,9 @@
   "Flattens a sequential struct. Does not remove nil values."
   [coll]
   (reduce (fn [result x]
-            (into result
-                  (if (sequential? x)
-                    (flatten-no-removal x)
-                    [x])))
+            (into result (if (sequential? x)
+                           (flatten-no-removal x)
+                           [x])))
           []
           coll))
 

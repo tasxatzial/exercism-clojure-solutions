@@ -9,7 +9,8 @@
   "Converts a seq of chars to a seq of numbers. Numerical
   chars always map to the corresponding numerical value."
   [chars]
-  (map #(- (int %) 48) chars))
+  (map #(- (int %) 48)
+       chars))
 
 (defn valid-num?
   "Returns true if digits seq represents a valid number.

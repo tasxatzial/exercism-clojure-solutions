@@ -53,8 +53,7 @@
 (defn ignore-allergens
   "Ignores all scores > max-score."
   [scores]
-  (take-while #(<= % max-score)
-              scores))
+  (take-while #(<= % max-score) scores))
 
 (defn allergies
   "Returns a seq of all allergens based on a final score."

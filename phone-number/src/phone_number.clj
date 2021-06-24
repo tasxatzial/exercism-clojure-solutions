@@ -3,8 +3,9 @@
 (defn string->digits
   "Cleans up a phone number and returns a seq of its digits."
   [num-string]
-  (let [char->int (map int num-string)
-        cleaned (filter #(<= 48 (int %) 57) char->int)]
+  (let [ints (map int num-string)
+        cleaned (filter #(<= 48 (int %) 57)
+                        ints)]
     (map #(- % 48) cleaned)))
 
 (defn- number-10digit
@@ -28,9 +29,8 @@
   "Returns \"0000000000\" if the digits seq does not represent
   a valid phone number, else it returns the phone number."
   [num-string]
-  (let [digits (string->digits num-string)
-        digit-count (count digits)]
-    (case digit-count
+  (let [digits (string->digits num-string)]
+    (case (count digits)
       11 (number-11digit digits)
       10 (number-10digit digits)
       "0000000000")))

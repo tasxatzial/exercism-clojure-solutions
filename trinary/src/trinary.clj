@@ -4,7 +4,8 @@
   "Converts a string to a seq of its digits. Numeric characters
   are guaranteed to be represented by their numerical value."
   [s]
-  (map #(- (int %) 48) s))
+  (map #(- (int %) 48)
+       s))
 
 (defn valid-trinary?
   "Returns true iff digits seq represents a valid trinary number."
@@ -12,8 +13,8 @@
   (every? #(<= 0 % 2) digits))
 
 (defn compute-val
-  "Returns the decimal value of a trinary number. The number is
-  represented by a seq of its digits."
+  "Returns the decimal value of a trinary number represented
+  by a seq of its digits."
   [digits]
   (+ (reduce (fn [result digit]
                (* 3 (+ result digit)))

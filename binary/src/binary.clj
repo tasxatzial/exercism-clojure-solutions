@@ -4,7 +4,8 @@
   "Converts a string to a seq of its digits. Numeric characters
   are guaranteed to be represented by their numerical value."
   [s]
-  (map #(- (int %) 48) s))
+  (map #(- (int %) 48)
+       s))
 
 (defn valid-binary?
   "Returns true iff digits seq represents a valid binary number."
@@ -13,7 +14,7 @@
 
 (defn compute-val
   "Returns the decimal value of a binary number. The number is
-  represented by a seq of its digits."
+  represented by a seq of its decimal digit values."
   [digits]
   (+ (reduce (fn [result digit]
                (* 2 (+ result digit)))

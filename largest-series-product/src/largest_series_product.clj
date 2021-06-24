@@ -9,8 +9,7 @@
 (defn valid-digits?
   "Checks if the digits seq represents a valid integer."
   [digits]
-  (every? #(<= 0 % 9)
-          digits))
+  (every? #(<= 0 % 9) digits))
 
 (defn largest-product
   "Calculates the largest product for a contiguous substring of digits

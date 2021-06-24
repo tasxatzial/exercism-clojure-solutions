@@ -4,7 +4,8 @@
   "Converts a string to a seq of its digits. Numeric characters
   are guaranteed to be represented by their numerical value."
   [s]
-  (map #(- (int %) 48) s))
+  (map #(- (int %) 48)
+       s))
 
 (defn valid-octal?
   "Returns true iff digits seq represents a valid octal number."
@@ -13,7 +14,7 @@
 
 (defn compute-val
   "Returns the decimal value of a octal number. The number is
-  represented by a seq of its digits."
+  represented by a seq of its decimal digit values."
   [digits]
   (+ (reduce (fn [result digit]
                (* 8 (+ result digit)))
