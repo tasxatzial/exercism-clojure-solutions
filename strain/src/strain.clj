@@ -4,20 +4,22 @@
   "Returns a new collection containing those elements
   where the predicate f is true."
   [f coll]
-  (reduce (fn [result item]
-            (if (f item)
-              (conj result item)
-              result))
-          []
-          coll))
+  (loop [result []
+         [item & more] coll]
+    (if item
+      (if (f item)
+        (recur (conj result item) more)
+        (recur result more))
+      result)))
 
 (defn discard
   "Returns a new collection containing those elements
   where the predicate f is false."
   [f coll]
-  (reduce (fn [result item]
-            (if (f item)
-              result
-              (conj result item)))
-          []
-          coll))
+  (loop [result []
+         [item & more] coll]
+    (if item
+      (if (f item)
+        (recur result more)
+        (recur (conj result item) more))
+      result)))
