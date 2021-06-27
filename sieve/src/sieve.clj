@@ -1,18 +1,21 @@
 (ns sieve)
 
-(defn multiples-of
-  "Generates a set of all multiples of n that are <= max
-  and >= n^2."
+;; optimized sieve
+
+(defn- multiples
+  "Generates a set of multiples of n that are <=max
+  and >=n^2. Also every second multiple is skipped.
+  Intended to be used when n>2"
   [n max]
-  (set (take-while #(<= % max)
-                   (iterate #(+ % n) (* n n)))))
+  (set (range (* n n) (inc max) (+ n n))))
 
 (defn sieve
   "Returns all primes in [2, max]."
   [max]
-  (loop [primes []
-         [n & remaining] (range 2 (inc max))]
-    (if n
-      (recur (conj primes n)
-             (remove (multiples-of n max) remaining))
-      primes)))
+  (if (< max 2)
+    ()
+    (let [numbers (range 3 (inc max))
+          odd (filter odd? numbers)
+          remove-multiples #(remove (multiples %2 max) %1)
+          primes-gt2 (reduce remove-multiples odd odd)]
+      (cons 2 primes-gt2))))
