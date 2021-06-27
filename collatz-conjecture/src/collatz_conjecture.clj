@@ -10,8 +10,7 @@
       (if (= num 1)
         steps
         (if (= (mod num 2) 0)
-          (recur (/ num 2)
-                 (inc steps))
+          (recur (/ num 2) (inc steps))
           (recur ((comp inc *) num 3)
                  (inc steps)))))
     (throw (Exception.))))

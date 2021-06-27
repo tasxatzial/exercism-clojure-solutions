@@ -21,10 +21,8 @@
              num n]
         (cond
           (= 1 num) result
-          (even? num) (recur (conj result 2)
-                             (/ num 2))
-          :else (recur (conj result 1)
-                       (dec num)))))))
+          (even? num) (recur (conj result 2) (/ num 2))
+          :else (recur (conj result 1) (dec num)))))))
 
 (defn square
   "Returns 2^(n-1).

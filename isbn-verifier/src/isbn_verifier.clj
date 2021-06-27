@@ -22,15 +22,14 @@
   "Converts the left part of the isbn (9 chars) to their
   numerical values."
   [left-part]
-  (map #(- (int %) 48) left-part))
+  (map #(- (int %) 48)
+       left-part))
 
 (defn left-part-value
   "Computes the numerical value of the left part of the
   isbn (9 chars)."
   [left-part]
-  (apply + (map *
-                (left-part->nums left-part)
-                (range 10 1 -1))))
+  (apply + (map * (left-part->nums left-part) (range 10 1 -1))))
 
 (defn valid-right-char?
   "Checks if the rightmost char of the isbn is valid."

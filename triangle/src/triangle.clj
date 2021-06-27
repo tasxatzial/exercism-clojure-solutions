@@ -15,8 +15,7 @@
   "Returns true if a triangle with sides n1 n2 n3 is equilateral,
   false otherwise."
   [n1 n2 n3]
-  (and (is-valid? n1 n2 n3)
-       (= n1 n2 n3)))
+  (and (is-valid? n1 n2 n3) (= n1 n2 n3)))
 
 (defn isosceles?
   "Returns true if a triangle with sides n1 n2 n3 is isosceles,

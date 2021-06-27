@@ -34,8 +34,6 @@
   else :unequal"
   [list1 list2]
   (cond
-    (= (count list1)
-       (count list2)) (check-equal list1 list2)
-    (> (count list1)
-       (count list2)) (check-superlist list1 list2)
+    (= (count list1) (count list2)) (check-equal list1 list2)
+    (> (count list1) (count list2)) (check-superlist list1 list2)
     :else (check-sublist list1 list2)))

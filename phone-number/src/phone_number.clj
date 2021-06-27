@@ -1,16 +1,20 @@
 (ns phone-number)
 
 (defn string->digits
-  "Cleans up a phone number and returns a seq of its digits."
-  [num-string]
-  (let [ints (map int num-string)
+  "Cleans up a string phone number and returns a vector of
+  its digits."
+  [s]
+  (let [ints (map int s)
         cleaned (filter #(<= 48 (int %) 57)
                         ints)]
-    (map #(- % 48) cleaned)))
+    (mapv #(- % 48) cleaned)))
 
 (defn- number-10digit
-  "Returns \"0000000000\" if the digits seq does not represent
-  a valid 10 digit phone number, else it returns the phone number."
+  "Converts a digits vector that represents a clean 10 digit
+  phone number to a string.
+  Returns \"0000000000\" if at least one of the following holds:
+  - The first digit of the area code is < 2
+  - The first digit of the exchange code is < 2"
   [digits]
   (if (or (< (first digits) 2)
           (< (nth digits 3) 2))
@@ -18,44 +22,51 @@
     (apply str digits)))
 
 (defn- number-11digit
-  "Returns \"0000000000\" if the digits seq does not represent
-  a valid 11 digit phone number, else it returns the phone number."
+  "Converts the given vector that represents a clean 11 digit
+  phone number to a string.
+  Returns \"0000000000\" if at least one of the following holds:
+  - The first digit of the area code is < 2
+  - The first digit of the exchange code is < 2
+  - The country code is not 1"
   [digits]
   (if (not= 1 (first digits))
     "0000000000"
     (number-10digit (rest digits))))
 
 (defn number
-  "Returns \"0000000000\" if the digits seq does not represent
-  a valid phone number, else it returns the phone number."
-  [num-string]
-  (let [digits (string->digits num-string)]
+  "Cleans up a string phone number and returns the
+  number represented by a string of 10 digit characters.
+  Returns \"0000000000\" if the string does not represent
+  a valid phone number."
+  [s]
+  (let [digits (string->digits s)]
     (case (count digits)
       11 (number-11digit digits)
       10 (number-10digit digits)
       "0000000000")))
 
 (defn area-code
-  "Returns the area code of a phone number."
-  [num-string]
-  (let [digits (string->digits num-string)]
+  "Returns the area code of a string phone number."
+  [s]
+  (let [digits (string->digits s)]
     (if (= 11 (count digits))
-      (apply str (take 3 (drop 1 digits)))
-      (apply str (take 3 digits)))))
+      (apply str (subvec digits 1 4))
+      (apply str (subvec digits 0 3)))))
 
 (defn- remove-country-code
-  "Removes the country code from 11 digit phone numbers."
+  "Removes the country code from a digits vector
+  that represents a phone number."
   [digits]
   (if (= 11 (count digits))
     (rest digits)
     digits))
 
 (defn pretty-print
-  "Formats a phone number as (XXX) XXX-XXXX.
+  "Formats a string phone number as (XXX) XXX-XXXX.
   (XXX) represents the area-code, the XXX before the dash
   represents the exchange code."
-  [num-string]
-  (let [digits (-> num-string
+  [s]
+  (let [digits (-> s
                    string->digits
                    remove-country-code)
         ar-code (apply str (take 3 digits))

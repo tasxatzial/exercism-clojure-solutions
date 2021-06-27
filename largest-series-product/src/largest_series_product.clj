@@ -3,8 +3,7 @@
 (defn int->digits
   "Converts an integer to a seq of its digits."
   [s]
-  (map #(Character/digit ^char % 10)
-       (str s)))
+  (map #(Character/digit ^char % 10) (str s)))
 
 (defn valid-digits?
   "Checks if the digits seq represents a valid integer."

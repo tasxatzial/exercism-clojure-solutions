@@ -53,6 +53,5 @@
       (if (int? x)
         (recur (into result (decompress-str x (first more)))
                (rest more))
-        (recur (conj result x)
-               more))
+        (recur (conj result x) more))
       (apply str result))))

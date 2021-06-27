@@ -3,8 +3,7 @@
 (defn int->digits
   "Converts an integer to a seq of its digits."
   [s]
-  (map #(Character/digit ^char % 10)
-       (str s)))
+  (map #(Character/digit ^char % 10) (str s)))
 
 (defn math-pow
   "Calculates x^n."
@@ -13,8 +12,7 @@
          remaining n]
     (if (= 0 remaining)
       result
-      (recur (* x result)
-             (dec remaining)))))
+      (recur (* x result) (dec remaining)))))
 
 (defn digits-sum
   "Returns the sum of the N-th powers of the digits seq where

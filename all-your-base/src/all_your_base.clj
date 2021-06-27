@@ -4,8 +4,7 @@
   "Returns true if the digits list represents a valid
   number in the given base, false otherwise."
   [digits base]
-  (every? #(and (>= % 0)
-                (< % base))
+  (every? #(and (>= % 0) (< % base))
           digits))
 
 (defn other->base10
@@ -25,8 +24,7 @@
   "Converts a decimal number to the list of its digits
   in the given base."
   [n out-base]
-  (when (and (not= nil n)
-             (> out-base 1))
+  (when (and (not= nil n) (> out-base 1))
     (loop [result '()
            num n]
       (if (= num 0)

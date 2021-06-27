@@ -8,4 +8,5 @@
               (if (false? x)
                 (inc result)
                 result))
-            0 (map = strand1 strand2))))
+            0
+            (map = strand1 strand2))))

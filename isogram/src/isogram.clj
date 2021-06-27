@@ -5,8 +5,7 @@
   [s]
   (let [lowercased (clojure.string/lower-case s)]
     (reduce (fn [result c]
-              (if (or (= \space c)
-                      (= \- c))
+              (if (or (= \space c) (= \- c))
                 result
                 (conj result c)))
             []
@@ -17,5 +16,4 @@
   [s]
   (let [letters (collect-letters s)
         letters-set (set letters)]
-    (= (count letters)
-       (count letters-set))))
+    (= (count letters) (count letters-set))))
