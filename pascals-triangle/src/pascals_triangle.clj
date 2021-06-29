@@ -3,28 +3,23 @@
 (defn next-row
   "Given a row, it returns the next row of pascal's triangle."
   [row]
-  (let [zero-append (conj row 0)
-        zero-prepend (into [0] row)]
-    (mapv +' zero-append zero-prepend)))
+  (let [zero-append (conj row 0)]
+    (mapv +' zero-append (rseq zero-append))))
 
-(defn row-N
+(defn row
   "Returns the Nth row of pascal's triangle."
-  ([N]
-   (case N
-     1 [1]
-     2 [1 1]
-     (row-N (dec N) (next-row [1 1]))))
-  ([N row]
-   (if (= N 2)
-     row
-     (recur (dec N) (next-row row)))))
+  [N]
+  (loop [row [1]
+         N N]
+    (if (= N 1)
+      row
+      (recur (next-row row) (dec N)))))
 
 (defn all-rows
-  "Returns a lazy seq of the rows of the pascal triangle."
-  ([]
-   (all-rows 1))
+  "Returns a lazy seq of the rows of the pascal triangle,
+  starting from the row that has n items."
   ([n]
-   (cons (row-N n)
+   (cons (row n)
          (lazy-seq (all-rows (inc n))))))
 
-(def triangle (all-rows))
+(def triangle (all-rows 1))
