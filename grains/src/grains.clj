@@ -46,8 +46,7 @@
                   (if (= x 1)
                     (*' result 2)
                     (*' result result)))
-                2
-                transforms)))))
+                2 transforms)))))
 
 (defn total
   "Returns the total number of grains."

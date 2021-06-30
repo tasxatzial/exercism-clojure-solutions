@@ -8,8 +8,7 @@
               (if (or (= \space c) (= \- c))
                 result
                 (conj result c)))
-            []
-            lowercased)))
+            [] lowercased)))
 
 (defn isogram?
   "Returns true if s is isogram, false otherwise."

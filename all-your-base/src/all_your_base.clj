@@ -16,8 +16,7 @@
              (valid-num? digits in-base))
     (+ (reduce (fn [result digit]
                  (* in-base (+ result digit)))
-               0
-               (butlast digits))
+               0 (butlast digits))
        (last digits))))
 
 (defn base10->other

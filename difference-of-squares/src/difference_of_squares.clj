@@ -3,8 +3,7 @@
 (defn sum-of-squares
   "Returns the sum of squares from 1 to N."
   [N]
-  (apply + (map #(* % %)
-                (range 1 (inc N)))))
+  (apply + (map #(* % %) (range 1 (inc N)))))
 
 (defn square-of-sum
   "Returns the square of the sum from 1 to N."

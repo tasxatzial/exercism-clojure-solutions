@@ -19,5 +19,4 @@
     [school]
     (reduce (fn [result [grade grade-names]]
                 (conj result [grade (sort grade-names)]))
-            (sorted-map)
-            school))
+            (sorted-map) school))

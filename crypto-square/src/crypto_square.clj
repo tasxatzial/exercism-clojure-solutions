@@ -52,8 +52,7 @@
                   (if (nil? x)
                     (conj result \space)
                     (conj result x)))
-                []
-                coll)
+                [] coll)
         \space))
 
 (defn normalize-ciphertext

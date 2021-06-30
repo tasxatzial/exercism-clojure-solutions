@@ -18,8 +18,7 @@
   [digits]
   (+ (reduce (fn [result digit]
                (* 8 (+ result digit)))
-             0
-             (butlast digits))
+             0 (butlast digits))
      (last digits)))
 
 (defn to-decimal

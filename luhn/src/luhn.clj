@@ -30,8 +30,7 @@
                 (if (> doubled 9)
                   (+ result first-digit (- doubled 9))
                   (+ result first-digit doubled))))
-            0
-            partitioned)))
+            0 partitioned)))
 
 (defn valid?
   "Returns true if the given string represents a valid

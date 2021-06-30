@@ -7,8 +7,7 @@
             (into result (if (sequential? x)
                            (flatten-no-removal x)
                            [x])))
-          []
-          coll))
+          [] coll))
 
 ;; using flatten-no-removal
 (defn flatten

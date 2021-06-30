@@ -34,8 +34,7 @@
 (defn valid-right-char?
   "Checks if the rightmost char of the isbn is valid."
   [c]
-  (or (= \X c)
-      (<= 48 (int c) 57)))
+  (or (= \X c) (<= 48 (int c) 57)))
 
 (defn right-char-value
   "Returns the numerical value of the  rightmost char of

@@ -19,8 +19,7 @@
   N is the size of the digits seq."
   [digits]
   (reduce #(+ (math-pow %2 (count digits)) %1)
-          0
-          digits))
+          0 digits))
 
 (defn armstrong?
   "Determines whether a number is an Armstrong number."

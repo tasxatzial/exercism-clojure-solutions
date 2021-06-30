@@ -13,8 +13,7 @@
             (if (zero? (mod n x))
               (str result (factors x))
               result))
-          ""
-          numbers))
+          "" numbers))
 
 (defn convert
   "Converts a number to a string based on its factors."

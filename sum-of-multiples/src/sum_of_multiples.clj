@@ -11,5 +11,4 @@
   the numbers up to but not including the given max number."
   [nums max]
   (apply + (reduce #(into %1 (multiples %2 max))
-                   #{}
-                   nums)))
+                   #{} nums)))

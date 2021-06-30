@@ -19,7 +19,6 @@
   "Returns a lazy seq of the rows of the pascal triangle,
   starting from the row that has n items."
   ([n]
-   (cons (row n)
-         (lazy-seq (all-rows (inc n))))))
+   (cons (row n) (lazy-seq (all-rows (inc n))))))
 
 (def triangle (all-rows 1))

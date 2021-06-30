@@ -10,7 +10,7 @@
 
 (defn string->digit-values
   "Converts a string representing a hexadecimal number to a seq of
-  its digits."
+  the decimal values of its chars."
   [s]
   (map hex-value s))
 
@@ -21,12 +21,11 @@
 
 (defn compute-val
   "Returns the decimal value of a hexadecimal number. The number is
-  represented by a seq of its digits."
+  represented by the seq of its decimal digit values."
   [digits]
   (+ (reduce (fn [result digit]
                (* 16 (+ result digit)))
-             0
-             (butlast digits))
+             0 (butlast digits))
      (last digits)))
 
 (defn hex-to-int

@@ -20,8 +20,7 @@
          remaining n]
     (if (= 0 remaining)
       result
-      (recur (* x result)
-             (dec remaining)))))
+      (recur (* x result) (dec remaining)))))
 
 (defn decimal->reverse-binary
   "Returns a seq representing number n in reverse binary form."
@@ -45,9 +44,7 @@
           (recur (rest digits)
                  (inc power)
                  (conj result (math-pow 2 power)))
-          (recur (rest digits)
-                 (inc power)
-                 result))
+          (recur (rest digits) (inc power) result))
         result))))
 
 (defn ignore-allergens
@@ -67,5 +64,4 @@
   "Returns true if the allergen is contained in the
   allergens represented by the given score."
   [score allergen]
-  (some #(= % allergen)
-        (allergies score)))
+  (some #(= % allergen) (allergies score)))

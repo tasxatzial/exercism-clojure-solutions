@@ -4,9 +4,7 @@
   "Returns true if a triangle with sides n1 n2 n3 is valid,
   false otherwise."
   [n1 n2 n3]
-  (and (pos? n1)
-       (pos? n2)
-       (pos? n3)
+  (and (pos? n1) (pos? n2) (pos? n3)
        (> (+ n1 n2) n3)
        (> (+ n1 n3) n2)
        (> (+ n2 n3) n1)))
@@ -22,9 +20,7 @@
   false otherwise."
   [n1 n2 n3]
   (and (is-valid? n1 n2 n3)
-       (or (= n1 n2)
-           (= n1 n3)
-           (= n2 n3))))
+       (or (= n1 n2) (= n1 n3) (= n2 n3))))
 
 (defn scalene?
   "Returns true if a triangle with sides n1 n2 n3 is scalene,

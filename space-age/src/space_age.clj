@@ -19,8 +19,7 @@
   (reduce (fn [result [planet period]]
             (let [planet-period (* earth-period period)]
               (conj result [planet planet-period])))
-          {}
-          earth-relative-periods))
+          {} earth-relative-periods))
 
 (defn on-mercury
   [seconds]

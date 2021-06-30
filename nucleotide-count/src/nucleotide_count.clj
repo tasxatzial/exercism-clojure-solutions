@@ -16,5 +16,4 @@
   (reduce (fn [result nucleotide]
             (let [nucleotide-count (count-of-nucleotide-in-strand nucleotide strand)]
               (assoc result nucleotide nucleotide-count)))
-          {}
-          nucleotides))
+          {} nucleotides))
