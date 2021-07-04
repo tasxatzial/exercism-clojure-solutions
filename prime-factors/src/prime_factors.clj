@@ -24,8 +24,8 @@
   [n primes]
   (if (= n 1)
     false
-    (not (some #(zero? (mod n %))
-               primes))))
+    (every? #(not= 0 (mod n %))
+            primes)))
 
 (defn of
   "Returns the prime factors of n. Some of them may be
