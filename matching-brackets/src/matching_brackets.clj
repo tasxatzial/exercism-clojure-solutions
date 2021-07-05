@@ -3,7 +3,14 @@
 ;; using a vector as stack
 
 (def brackets #{\{ \} \( \) \[ \]})
-(def matching-bracket {\{ \} \( \) \[ \]})
+(def close-bracket {\{ \}
+                    \( \)
+                    \[ \]})
+
+(defn open-bracket?
+  "Returns true if c is an opening bracket."
+  [c]
+  (contains? close-bracket c))
 
 (defn valid?
   "Returns true if the given string has properly
@@ -12,9 +19,10 @@
   (loop [stack []
          [bracket & rest-brackets] (filter brackets s)]
     (if bracket
-      (if (matching-bracket bracket)
+      (if (open-bracket? bracket)
         (recur (conj stack bracket) rest-brackets)
-        (if (= bracket (matching-bracket (peek stack)))
-          (recur (pop stack) rest-brackets)
-          false))
+        (let [prev-bracket (peek stack)]
+          (if (= bracket (close-bracket prev-bracket))
+            (recur (pop stack) rest-brackets)
+            false)))
       (empty? stack))))
