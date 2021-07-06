@@ -12,7 +12,7 @@
   (and (not= nil val) (zero? val)))
 
 (defn next-pos
-  "Returns the next board position when we start
+  "Returns the next position when we start
   from position [x y] and move in the specified direction."
   [[x y] direction]
   (case direction
@@ -31,7 +31,7 @@
 
 (defn next-valid-pos
   "Returns the next free position when we start from the
-  pos board position and move in the specified direction.
+  pos position and move in the specified direction.
   Returns nil if all neighbors of pos are occupied."
   ([pos direction board]
    (next-valid-pos pos direction board 0))
