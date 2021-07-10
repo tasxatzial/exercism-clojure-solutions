@@ -21,4 +21,16 @@
   ([n]
    (cons (row n) (lazy-seq (all-rows (inc n))))))
 
+;; lazy seq of pascal's triangle rows
 (def triangle (all-rows 1))
+
+;; -----------------------------------
+;; solution 2: using iterate
+
+;; lazy seq of pascal's triangle rows
+(def triangle2 (iterate next-row [1]))
+
+(defn row2
+  "Returns the Nth row of pascal's triangle."
+  [N]
+  (nth triangle2 (dec N)))
