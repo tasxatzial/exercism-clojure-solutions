@@ -6,10 +6,10 @@
 (def mult2 #(*' % 2))
 
 (defn- power
-  "Returns 2^n. n must be integer and != 0, 1, -1"
-  [n]
+  "Returns 2^|n|. n must be integer and != 0, 1, -1"
+  [^long n]
   (loop [result []
-         num n]
+         num (Math/abs n)]
     (cond
       (= 1 num) (reduce #(%2 %1) 2 (rseq result))
       (even? num) (recur (conj result sqr) (/ num 2))
