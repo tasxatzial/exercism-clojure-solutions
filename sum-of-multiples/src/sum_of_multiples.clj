@@ -3,8 +3,7 @@
 (defn multiples
   "Returns all multiples of n which are less than max."
   [n max]
-  (let [quotient (float (dec (/ max n)))]
-    (take quotient (iterate (partial + n) n))))
+  (range n max n))
 
 (defn sum-of-multiples
   "Given a list of nums, find the sum of all the unique multiples of
