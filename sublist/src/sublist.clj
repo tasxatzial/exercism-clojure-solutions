@@ -3,14 +3,11 @@
 (defn check-sublist
   "Returns :sublist if list1 is a sublist of list2, else :unequal."
   [list1 list2]
-  (let [l1-count (count list1)]
-    (loop [l2 list2]
-      (let [l2sub (take l1-count l2)]
-        (if (not= (count l2sub) l1-count)
-          :unequal
-          (if (= l2sub list1)
-            :sublist
-            (recur (rest l2))))))))
+  (let [l1-count (count list1)
+        l2-sublists (partition l1-count 1 list2)]
+    (if (some #(= list1 %) l2-sublists)
+      :sublist
+      :unequal)))
 
 (defn check-equal
   "Returns :equal if list1 = list2, else :unequal."
