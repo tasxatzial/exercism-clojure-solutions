@@ -1,15 +1,21 @@
 (ns nth-prime)
 
+(defn composite?
+  "Returns true if any of the primes is a factor of n,
+  false otherwise."
+  [n primes]
+  (let [sqr-primes (take-while #(< % (inc (Math/sqrt n)))
+                               primes)]
+    (some #(zero? (mod n %))
+          sqr-primes)))
+
 (defn next-prime
   "Returns the next prime given a vector of primes
   in increasing order."
   [primes]
-  (loop [candidate (inc (peek primes))
-         sqr-primes (take-while #(< % (inc (Math/sqrt candidate)))
-                                 primes)]
-    (if (some #(zero? (mod candidate %))
-              sqr-primes)
-      (recur (inc candidate) sqr-primes)
+  (loop [candidate (inc (peek primes))]
+    (if (composite? candidate primes)
+      (recur (inc candidate))
       candidate)))
 
 (defn nth-prime2
@@ -51,7 +57,7 @@
              (* N (Math/log (Math/log N))))]
     [(- b N) b]))
 
-(defn nth-prime2
+(defn nth-prime
   "Returns the nth prime."
   [n]
   (cond
