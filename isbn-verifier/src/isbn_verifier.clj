@@ -1,40 +1,29 @@
 (ns isbn-verifier)
 
-(defn remove-dash
-  "Removes the dashes from an isbn."
-  [isbn]
-  (filter #(not= \- %) isbn))
+(defn digit?
+  "Returns true if character c represents a digit,
+  false otherwise."
+  [c]
+  (<= 48 (int c) 57))
 
 (defn valid-left-part?
   "Checks if the left part of the isbn is valid. It must have
   9 digit characters."
   [isbn-left]
-  (if (not= (count isbn-left) 9)
-    false
-    (loop [[digit & more] isbn-left]
-      (if digit
-        (if (<= 48 (int digit) 57)
-          (recur more)
-          false)
-        true))))
-
-(defn left-part->nums
-  "Converts the left part of the isbn (9 chars) to their
-  numerical values."
-  [left-part]
-  (map #(- (int %) 48)
-       left-part))
+  (and (= 9 (count isbn-left))
+       (every? digit? isbn-left)))
 
 (defn left-part-value
   "Computes the numerical value of the left part of the
   isbn (9 chars)."
   [left-part]
-  (apply + (map * (left-part->nums left-part) (range 10 1 -1))))
+  (let [digits (map #(Character/digit ^char % 10) left-part)]
+    (apply + (map * digits (range 10 1 -1)))))
 
 (defn valid-right-char?
   "Checks if the rightmost char of the isbn is valid."
   [c]
-  (or (= \X c) (<= 48 (int c) 57)))
+  (or (= \X c) (digit? c)))
 
 (defn right-char-value
   "Returns the numerical value of the  rightmost char of
@@ -42,12 +31,12 @@
   [c]
   (if (= \X c)
     10
-    (- (int c) 48)))
+    (Character/digit ^char c 10)))
 
 (defn isbn?
   "Checks whether an isbn is valid."
   [isbn]
-  (let [no-dashes (remove-dash isbn)
+  (let [no-dashes (remove #{\-} isbn)
         left-part (butlast no-dashes)
         right-char (last no-dashes)]
     (if (and (valid-left-part? left-part)
