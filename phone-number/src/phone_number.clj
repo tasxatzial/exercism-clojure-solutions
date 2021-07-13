@@ -1,13 +1,19 @@
 (ns phone-number)
 
+(def invalid-phone "0000000000")
+
+(defn digit?
+  "Returns true if character c represents a digit,
+  false otherwise."
+  [c]
+  (<= 48 (int c) 57))
+
 (defn string->digits
   "Cleans up a string phone number and returns a vector of
   its digits."
   [s]
-  (let [ints (map int s)
-        cleaned (filter #(<= 48 (int %) 57)
-                        ints)]
-    (mapv #(- % 48) cleaned)))
+  (let [cleaned (filter digit? s)]
+    (mapv #(Character/digit ^char % 10) cleaned)))
 
 (defn- number-10digit
   "Converts a digits vector that represents a clean 10 digit
@@ -18,7 +24,7 @@
   [digits]
   (if (or (< (first digits) 2)
           (< (nth digits 3) 2))
-    "0000000000"
+    invalid-phone
     (apply str digits)))
 
 (defn- number-11digit
@@ -30,7 +36,7 @@
   - The country code is not 1"
   [digits]
   (if (not= 1 (first digits))
-    "0000000000"
+    invalid-phone
     (number-10digit (rest digits))))
 
 (defn number
@@ -43,7 +49,7 @@
     (case (count digits)
       11 (number-11digit digits)
       10 (number-10digit digits)
-      "0000000000")))
+      invalid-phone)))
 
 (defn area-code
   "Returns the area code of a string phone number."
