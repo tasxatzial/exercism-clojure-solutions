@@ -6,12 +6,12 @@
     (get school grade []))
 
 (defn add
-    "Adds a name to the given grade vector."
+    "Associates the given grade to a name."
     [school name grade]
     (let [grade-names (get school grade)]
         (if grade-names
             (update school grade conj name)
-            (assoc school grade (conj [] name)))))
+            (assoc school grade [name]))))
 
 (defn sorted
     "Returns a sorted map of the school grades. Names in
