@@ -5,7 +5,7 @@
   [s]
   (filter #(not= \space %) s))
 
-(defn to-digits
+(defn- to-digits
   "Converts a seq of chars to a seq of numbers. Numerical
   chars always map to the corresponding numerical value."
   [chars]
@@ -19,12 +19,11 @@
   (and (> (count digits) 1)
        (every? #(<= 0 % 9) digits)))
 
-(defn digits-val
+(defn luhn-value
   "Returns the value of a number according to the luhn
   formula. The number is represented by a seq of its digits."
   [digits]
-  (let [reversed (reverse digits)
-        partitioned (partition 2 2 [0] reversed)]
+  (let [partitioned (partition 2 2 [0] (reverse digits))]
     (reduce (fn [result [first-digit second-digit]]
               (let [doubled (* 2 second-digit)]
                 (if (> doubled 9)
@@ -36,7 +35,6 @@
   "Returns true if the given string represents a valid
   luhn number, false otherwise."
   [s]
-  (let [cleaned (clean-chars s)
-        digits (to-digits cleaned)]
+  (let [digits (to-digits (clean-chars s))]
     (and (valid-num? digits)
-         (int? (/ (digits-val digits) 10)))))
+         (int? (/ (luhn-value digits) 10)))))
