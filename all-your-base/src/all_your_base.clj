@@ -7,35 +7,30 @@
   (every? #(and (>= % 0) (< % base))
           digits))
 
-(defn other->base10
-  "Converts a number represented by the list of its digits
-  in the given base to its decimal value."
-  [digits in-base]
-  (when (and (seq digits)
-             (> in-base 1)
-             (valid-num? digits in-base))
-    (+ (reduce (fn [result digit]
-                 (* in-base (+ result digit)))
-               0 (butlast digits))
+(defn to-base10
+  "Converts a number represented by a seq of its digits
+  in the given base to base 10."
+  [digits base]
+  (when (and (seq digits) (> base 1) (valid-num? digits base))
+    (+ (reduce #(* base (+ %1 %2))
+               0
+               (butlast digits))
        (last digits))))
 
-(defn base10->other
-  "Converts a decimal number to the list of its digits
+(defn from-base10
+  "Converts a base 10 number to a seq of its digits
   in the given base."
-  [n out-base]
-  (when (and (not= nil n) (> out-base 1))
+  [n base]
+  (when (and (not (nil? n)) (> base 1))
     (loop [result '()
-           num n]
-      (if (= num 0)
+           n n]
+      (if (zero? n)
         (or (seq result) '(0))
-        (recur (cons (rem num out-base) result)
-               (quot num out-base))))))
+        (let [remainder (rem n base)
+              quotient (quot n base)]
+          (recur (cons remainder result) quotient))))))
 
 (defn convert
-  "Converts a number represented by the list of its digits
-  in the given input-base to the list of its digits in the
-  given output-base. Returns nil if the bases or the number
-  are invalid."
-  [input-base digits output-base]
-  (let [decimal (other->base10 digits input-base)]
-    (base10->other decimal output-base)))
+  [src-base digits target-base]
+  (-> (to-base10 digits src-base)
+      (from-base10 target-base)))
