@@ -1,15 +1,15 @@
 (ns anagram)
 
+(defn anagram?
+  "Returns true if target is an anagram of src. Assumes src
+  is in lower-case."
+  [src target]
+  (let [lowercase-target (clojure.string/lower-case target)]
+    (and (not= src target)
+         (= (frequencies src) (frequencies lowercase-target)))))
+
 (defn anagrams-for
-  "Selects the correct sublist of anagrams, given a word and a
-  vector of possible anagrams."
-  [word prospect-list]
-  (let [word-lower (clojure.string/lower-case word)
-        word-freq (frequencies word-lower)]
-    (reduce (fn [result prospect]
-              (let [prospect-lower (clojure.string/lower-case prospect)]
-                (if (and (not= word-lower prospect-lower)
-                         (= word-freq (frequencies prospect-lower)))
-                  (conj result prospect)
-                  result)))
-            [] prospect-list)))
+  [word candidates]
+  (let [lowercase-word (clojure.string/lower-case word)
+        word-anagram? (partial anagram? lowercase-word)]
+    (filter word-anagram? candidates)))
