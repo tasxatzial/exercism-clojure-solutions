@@ -6,24 +6,25 @@
   (map #(Character/digit ^char % 10) (str s)))
 
 (defn math-pow
-  "Calculates x^n."
+  "Returns x^n."
   [x n]
-  (loop [result 1
-         remaining n]
-    (if (= 0 remaining)
-      result
-      (recur (* x result) (dec remaining)))))
+  (let [multX (partial *' x)
+        sqr #(*' % %)]
+    (loop [result []
+           n n]
+      (cond
+        (= 1 n) (reduce #(%2 %1) x (rseq result))
+        (even? n) (recur (conj result sqr) (/ n 2))
+        :else (recur (conj result multX) (dec n))))))
 
-(defn digits-sum
-  "Returns the sum of the N-th powers of the digits seq where
-  N is the size of the digits seq."
-  [digits]
-  (reduce #(+ (math-pow %2 (count digits)) %1)
-          0 digits))
-
-(defn armstrong?
-  "Determines whether a number is an Armstrong number."
+(defn armstrong-sum
+  "For the given number n, it returns the sum of its digits each raised to the
+  power of the number of digits."
   [n]
   (let [digits (int->digits n)
-        sum (digits-sum digits)]
-    (= n sum)))
+        digit-count (count digits)]
+    (apply +' (map #(math-pow % digit-count) digits))))
+
+(defn armstrong?
+  [n]
+  (= n (armstrong-sum n)))
