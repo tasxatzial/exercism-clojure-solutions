@@ -30,8 +30,7 @@
       (assoc node 2 (insert val (right node))))))
 
 (defn to-list
-  "Traverses a tree and returns a list of values
-  (increasing order)"
+  "Traverses a tree (preorder) and returns a list of values."
   [node]
   (when node
     (concat (to-list (left node))
@@ -41,4 +40,8 @@
 (defn from-list
   "Creates a tree from the given sequence of values."
   [coll]
-  (reduce #(insert %2 %1) nil coll))
+  (loop [result nil
+         [val & more-val] coll]
+    (if val
+      (recur (insert val result) more-val)
+      result)))
