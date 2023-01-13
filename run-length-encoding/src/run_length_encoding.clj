@@ -35,3 +35,12 @@
        (map decode)
        (apply concat)
        (apply str)))
+
+;; should be faster for strings that have high compression ratio 
+(defn run-length-decode2
+  [text]
+  (let [text-seq (re-seq #"\d*." text)]
+    (reduce (fn [result compressed]
+              (str result (apply str (decode compressed))))
+            ""
+            text-seq)))
