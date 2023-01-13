@@ -1,15 +1,15 @@
 (ns atbash-cipher)
 
 (def alphabet "abcdefghijklmnopqrstuvwxyz")
-(def matches (zipmap alphabet (reverse alphabet)))
+(def alphabet-encode-map (zipmap alphabet (reverse alphabet)))
 
 (defn encode
-  "Encodes the given string using the atbash cipher."
   [s]
   (->> s
        clojure.string/lower-case
-       (remove #{\. \space \,})
-       (map #(get matches % %))
+       (re-seq #"[A-Za-z0-9]")
+       (apply str)
+       (map #(get alphabet-encode-map % %))
        (partition-all 5)
        (map #(apply str %))
        (clojure.string/join " ")))
