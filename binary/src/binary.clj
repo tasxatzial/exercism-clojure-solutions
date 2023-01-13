@@ -1,32 +1,29 @@
 (ns binary)
 
-(defn string->digits
-  "Converts a string to a seq of its digits. Numeric characters
-  are guaranteed to be represented by their numerical value."
-  [s]
-  (map #(- (int %) 48)
-       s))
+(defn char->int
+  "Converts a numeric char to the corresponding integer
+  (e.g. \1 is converted to the integer 1)."
+  [c]
+  (- (int c) 48))
 
 (defn valid-binary?
-  "Returns true iff digits seq represents a valid binary number."
+  "Returns true if digits represents a valid binary number,
+  false otherwise."
   [digits]
-  (every? #(<= 0 % 1) digits))
+  (every? #{0 1} digits))
 
-(defn compute-val
-  "Returns the decimal value of a binary number. The number is
-  represented by a seq of its decimal digit values."
+(defn get-decimal
+  "Returns the decimal value of a binary number."
   [digits]
-  (+ (reduce (fn [result digit]
+  (+ (last digits)
+     (reduce (fn [result digit]
                (* 2 (+ result digit)))
-             0 (butlast digits))
-     (last digits)))
+             0
+             (butlast digits))))
 
 (defn to-decimal
-  "Returns the decimal value of the binary number represented
-  by the given string or 0 if the string does not represent a valid
-  binary number."
   [s]
-  (let [digits (string->digits s)]
+  (let [digits (map char->int s)]
     (if (valid-binary? digits)
-      (compute-val digits)
+      (get-decimal digits)
       0)))
