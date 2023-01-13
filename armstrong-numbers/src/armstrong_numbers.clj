@@ -5,6 +5,7 @@
   [s]
   (map #(Character/digit ^char % 10) (str s)))
 
+;; Time complexity O(log2_N)
 (defn math-pow
   "Returns x^n."
   [x n]
