@@ -12,3 +12,11 @@
           (let [slice (apply str (take length string))]
             (recur (conj result slice) (inc index) (rest string)))
           result)))))
+
+(defn slices2
+  [string length]
+  (if (zero? length)
+    [""]
+    (->> string
+         (partition length 1)
+         (map #(apply str %)))))
