@@ -10,8 +10,8 @@
       result)))
 
 ;; lazy
-(defn accumulate
+(defn accumulate-lazy
   [f coll]
   (lazy-seq
     (when (seq coll)
-      (cons (f (first coll)) (accumulate f (rest coll))))))
+      (cons (f (first coll)) (accumulate-lazy f (rest coll))))))
