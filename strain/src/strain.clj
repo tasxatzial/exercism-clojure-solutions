@@ -1,25 +1,23 @@
 (ns strain)
 
 (defn retain
-  "Returns a new collection containing those elements
-  where the predicate f is true."
   [f coll]
   (loop [result []
-         [item & more] coll]
-    (if item
-      (if (f item)
-        (recur (conj result item) more)
-        (recur result more))
+         coll coll]
+    (if (seq coll)
+      (let [[item & rest-items] coll]
+        (if (true? (f item))
+          (recur (conj result item) rest-items)
+          (recur result rest-items)))
       result)))
 
 (defn discard
-  "Returns a new collection containing those elements
-  where the predicate f is false."
   [f coll]
   (loop [result []
-         [item & more] coll]
-    (if item
-      (if (f item)
-        (recur result more)
-        (recur (conj result item) more))
+         coll coll]
+    (if (seq coll)
+      (let [[item & rest-items] coll]
+        (if (true? (f item))
+          (recur result rest-items)
+          (recur (conj result item) rest-items)))
       result)))
