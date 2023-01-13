@@ -1,8 +1,8 @@
 (ns word-count)
 
 (defn word-count
-  "Returns a map of word frequencies."
   [phrase]
-  (let [lowercase (clojure.string/lower-case phrase)
-        tokens (clojure.string/split lowercase #"[^\w]")]
-    (frequencies (filter #(not= "" %) tokens))))
+  (->> phrase
+       clojure.string/lower-case
+       (re-seq #"[A-Za-z]+'*['A-Za-z]*|[0-9]+")
+       frequencies))
