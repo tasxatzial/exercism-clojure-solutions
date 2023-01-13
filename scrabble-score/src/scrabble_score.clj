@@ -10,13 +10,12 @@
    \q 10 \z 10})
 
 (defn score-word
-  "Returns the scrabble score of a word."
   [word]
-  (let [lower-word (clojure.string/lower-case word)]
-    (apply + (map #(get letter-scores %) lower-word))))
+  (->> word
+       clojure.string/lower-case
+       (map letter-scores)
+       (apply +)))
 
 (defn score-letter
-  "Returns the scrabble score of the first character
-  of a word."
   [word]
   (score-word (first word)))
