@@ -1,22 +1,20 @@
 (ns grade-school)
 
 (defn grade
-    "Returns a vector of school names in the given grade."
-    [school grade]
-    (get school grade []))
+  "Get a list of all students enrolled in a grade."
+  [school grade]
+  (get school grade []))
 
 (defn add
-    "Associates the given grade to a name."
-    [school name grade]
-    (let [grade-names (get school grade)]
-        (if grade-names
-            (update school grade conj name)
-            (assoc school grade [name]))))
+  "Add a student's name to the given grade."
+  [school name grade]
+  (update school grade (fnil conj []) name))
 
 (defn sorted
-    "Returns a sorted map of the school grades. Names in
-    each grade are also sorted."
-    [school]
-    (reduce (fn [result [grade grade-names]]
-                (conj result [grade (sort grade-names)]))
-            (sorted-map) school))
+  "Get a sorted list of all students in all grades. Names in
+  each grade are also sorted."
+  [school]
+  (reduce (fn [result [grade grade-names]]
+            (conj result [grade (sort grade-names)]))
+          (sorted-map)
+          school))
