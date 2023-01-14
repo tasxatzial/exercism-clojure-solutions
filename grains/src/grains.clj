@@ -1,35 +1,30 @@
 (ns grains)
 
-;; Calculates powers of 2 in O(logn)
-
-(def sqr #(*' % %))
-(def mult2 #(*' % 2))
-
-(defn- power
-  "Returns 2^|n|. n must be integer and != 0, 1, -1"
-  [^long n]
-  (loop [result []
-         num (Math/abs n)]
-    (cond
-      (= 1 num) (reduce #(%2 %1) 2 (rseq result))
-      (even? num) (recur (conj result sqr) (/ num 2))
-      :else (recur (conj result mult2) (dec num)))))
-
-(defn pow2n
-  "Returns 2^n. n must be integer otherwise it returns nil."
+(defn mult-by-self
+  "Returns the square of the given number."
   [n]
-  (if (not (int? n))
-    nil
-    (case n
-      0 1
-      1 2
-      -1 1/2
-      (if (neg? n)
-        (/ 1 (power n))
-        (power n)))))
+  (*' n n))
+
+(defn mult-by-2
+  "Multiplies the given number by 2."
+  [n]
+  (*' n 2))
+
+;; Time complexity: O(log2_N)
+(defn pow2n
+  "Returns 2^n where n is integer >= 0."
+  [n]
+  (if (zero? n)
+    1
+    (loop [result []
+           n n]
+      (cond
+        (= 1 n) (reduce #(%2 %1) 2 (rseq result))
+        (even? n) (recur (conj result mult-by-self) (/ n 2))
+        :else (recur (conj result mult-by-2) (dec n))))))
 
 (defn square
-  "Returns the number of grains in square n."
+  "Returns the number of grains in square n (1 <= n <= 64)."
   [n]
   (pow2n (dec n)))
 
