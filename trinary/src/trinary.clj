@@ -1,32 +1,37 @@
 (ns trinary)
 
-(defn string->digits
-  "Converts a string to a seq of its digits. Numeric characters
-  are guaranteed to be represented by their numerical value."
+(defn trinary-char->dec
+  "Returns the decimal value of a lowercase trinary char."
+  [c]
+  (- (int c) 48))
+
+(defn trinary->dec-values
+  "Converts a string that represents a non-negative trinary
+  number to a seq of the decimal values of its digits."
   [s]
-  (map #(- (int %) 48)
-       s))
+  (map trinary-char->dec s))
 
 (defn valid-trinary?
-  "Returns true iff digits seq represents a valid trinary number."
-  [digits]
-  (every? #(<= 0 % 2) digits))
+  "Returns true if the seq of decimal values represents a valid
+  trinary number, false otherwise."
+  [decimal-values]
+  (every? #(<= 0 % 2) decimal-values))
 
-(defn compute-val
-  "Returns the decimal value of a trinary number represented
-  by a seq of its digits."
-  [digits]
-  (+ (reduce (fn [result digit]
+(defn compute-decimal
+  "Given a seq of decimal values that represent a trinary
+  number, it computes the decimal equivalent of that number."
+  [decimal-values]
+  (+ (last decimal-values)
+     (reduce (fn [result digit]
                (* 3 (+ result digit)))
-             0 (butlast digits))
-     (last digits)))
+             0
+             (butlast decimal-values))))
 
 (defn to-decimal
-  "Returns the decimal value of the trinary number represented
-  by the given string or 0 if the string does not represent a valid
-  trinary number."
+  "Converts the given trinary number (string) to the decimal equivalent.
+  Returns 0 if the string does not represent a valid trinary number."
   [s]
-  (let [digits (string->digits s)]
-    (if (valid-trinary? digits)
-      (compute-val digits)
+  (let [dec-values (trinary->dec-values s)]
+    (if (valid-trinary? dec-values)
+      (compute-decimal dec-values)
       0)))
