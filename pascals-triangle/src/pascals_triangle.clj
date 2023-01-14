@@ -1,7 +1,7 @@
 (ns pascals-triangle)
 
 (defn next-row
-  "Given a row, it returns the next row of pascal's triangle."
+  "Returns the next row of pascal's triangle."
   [row]
   (let [zero-append (conj row 0)]
     (mapv +' zero-append (rseq zero-append))))
@@ -15,22 +15,15 @@
       row
       (recur (next-row row) (dec N)))))
 
-(defn all-rows
-  "Returns a lazy seq of the rows of the pascal triangle,
-  starting from the row that has n items."
+(defn pascals-rows
+  "Returns a lazy seq of the rows of pascal's triangle."
+  ([]
+   (pascals-rows 1))
   ([n]
-   (cons (row n) (lazy-seq (all-rows (inc n))))))
+   (lazy-seq
+     (cons (row n) (pascals-rows (inc n))))))
 
-;; lazy seq of pascal's triangle rows
-(def triangle (all-rows 1))
+(def triangle (pascals-rows))
 
-;; -----------------------------------
-;; solution 2: using iterate
-
-;; lazy seq of pascal's triangle rows
+;; solution 2
 (def triangle2 (iterate next-row [1]))
-
-(defn row2
-  "Returns the Nth row of pascal's triangle."
-  [N]
-  (nth triangle2 (dec N)))
