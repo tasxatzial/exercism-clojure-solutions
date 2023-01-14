@@ -1,11 +1,19 @@
 (ns proverb)
 
+(defn first-proverb-sentence
+  [w1 w2]
+  (str "For want of a " w1 " the " w2 " was lost."))
+
+(defn second-proverb-sentence
+  [w]
+  (str "And all for the want of a " w "."))
+
 (defn recite
-  "Generates the relevant proverb from the given list of words."
   [s]
-  (if (seq s)
-    (let [first-s (mapv #(str "For want of a " %1 " the " %2 " was lost.")
-                        s (rest s))
-          last-s (str "And all for the want of a " (first s) ".")]
-      (clojure.string/join "\n" (conj first-s last-s)))
+  (if-let [seq-s (seq s)]
+    (let [but-last-sentences (map first-proverb-sentence seq-s (rest seq-s))
+          last-sentence (second-proverb-sentence (first seq-s))]
+      (->> [last-sentence]
+           (concat but-last-sentences)
+           (clojure.string/join "\n")))
     ""))
