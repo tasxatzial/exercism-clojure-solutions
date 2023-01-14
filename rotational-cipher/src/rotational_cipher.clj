@@ -2,13 +2,13 @@
 
 (defn get-char-type
   "Returns:
-  1) :uppercase if int-char represents an uppercase letter
-  2) :lowercase if int-char represents a lowercase letter
+  1) :uppercase if ascii val corresponds to an uppercase letter
+  2) :lowercase if ascii val corresponds to a lowercase letter
   3) :other in all other cases."
-  [int-char]
+  [ascii-val]
   (cond
-    (<= 97 int-char 122) :uppercase
-    (<= 65 int-char 90) :lowercase
+    (<= 97 ascii-val 122) :uppercase
+    (<= 65 ascii-val 90) :lowercase
     :else :other))
 
 (defn rotate-int
@@ -25,10 +25,10 @@
 (defn rotate-char
   "Rotates the char c by n."
   [n c]
-  (let [int-char (int c)
-        char-type (get-char-type int-char)]
+  (let [ascii-val (int c)
+        char-type (get-char-type ascii-val)]
     (if-let [rotate-fn (rotate-fn char-type)]
-      (char (rotate-fn int-char n))
+      (char (rotate-fn ascii-val n))
       c)))
 
 (defn rotate
