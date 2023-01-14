@@ -1,29 +1,37 @@
 (ns binary)
 
-(defn char->int
-  "Converts a numeric char to the corresponding integer
-  (e.g. \1 is converted to the integer 1)."
+(defn bin-char->dec
+  "Returns the decimal value of a lowercase binary char."
   [c]
   (- (int c) 48))
 
-(defn valid-binary?
-  "Returns true if digits represents a valid binary number,
-  false otherwise."
-  [digits]
-  (every? #{0 1} digits))
+(defn bin->dec-values
+  "Converts a string that represents a non-negative binary
+  number to a seq of the decimal values of its digits."
+  [s]
+  (map bin-char->dec s))
 
-(defn get-decimal
-  "Returns the decimal value of a binary number."
-  [digits]
-  (+ (last digits)
+(defn valid-bin?
+  "Returns true if the seq of decimal values represents a valid
+  binary number, false otherwise."
+  [decimal-values]
+  (every? #(<= 0 % 1) decimal-values))
+
+(defn compute-decimal
+  "Given a seq of decimal values that represent a binary
+  number, it computes the decimal equivalent of that number."
+  [decimal-values]
+  (+ (last decimal-values)
      (reduce (fn [result digit]
                (* 2 (+ result digit)))
              0
-             (butlast digits))))
+             (butlast decimal-values))))
 
 (defn to-decimal
+  "Converts the given binary number (string) to the decimal equivalent.
+  Returns 0 if the string does not represent a valid binary number."
   [s]
-  (let [digits (map char->int s)]
-    (if (valid-binary? digits)
-      (get-decimal digits)
+  (let [dec-values (bin->dec-values s)]
+    (if (valid-bin? dec-values)
+      (compute-decimal dec-values)
       0)))
