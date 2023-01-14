@@ -1,25 +1,25 @@
 (ns all-your-base)
 
 (defn valid-num?
-  "Returns true if the digits list represents a valid
+  "Returns true if the decimal values represent a valid
   number in the given base, false otherwise."
-  [digits base]
+  [decimal-vals base]
   (every? #(and (>= % 0) (< % base))
-          digits))
+          decimal-vals))
 
 (defn to-base10
-  "Converts a number represented by a seq of its digits
-  in the given base to base 10."
-  [digits base]
-  (when (and (seq digits) (> base 1) (valid-num? digits base))
+  "Given a seq of decimal values that represent a number in the
+  given base, it computes the decimal equivalent of that number."
+  [decimal-vals base]
+  (when (and (seq decimal-vals) (> base 1) (valid-num? decimal-vals base))
     (+ (reduce #(* base (+ %1 %2))
                0
-               (butlast digits))
-       (last digits))))
+               (butlast decimal-vals))
+       (last decimal-vals))))
 
 (defn from-base10
-  "Converts a base 10 number to a seq of its digits
-  in the given base."
+  "Converts a non-negative base 10 number to a seq of its decimal
+  values in the given base."
   [n base]
   (when (and (not (nil? n)) (> base 1))
     (loop [result '()
