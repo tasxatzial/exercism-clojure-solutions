@@ -23,8 +23,8 @@
    :uppercase (partial rotate-int 97 26)})
 
 (defn rotate-char
-  "Rotates the given char by n."
-  [c n]
+  "Rotates the char c by n."
+  [n c]
   (let [int-char (int c)
         char-type (get-char-type int-char)]
     (if-let [rotate-fn (rotate-fn char-type)]
@@ -33,6 +33,7 @@
 
 (defn rotate
   [s n]
-  (->> s
-       (map #(rotate-char % n))
-       (apply str)))
+  (let [rotate-char-by-n (partial rotate-char n)]
+    (->> s
+         (map rotate-char-by-n)
+         (apply str))))
