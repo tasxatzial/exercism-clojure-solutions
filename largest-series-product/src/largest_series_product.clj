@@ -1,25 +1,27 @@
 (ns largest-series-product)
 
-(defn int->digits
-  "Converts an integer to a seq of its digits."
+(defn string-int->digits
+  "Converts a string that represents a non-negative integer
+  to a seq of its digits (integers)."
   [s]
   (map #(Character/digit ^char % 10) s))
 
 (defn valid-digits?
-  "Checks if the digits seq represents a valid integer."
+  "Returns true if the given seq contains only integers between 0 and 9,
+  false otherwise."
   [digits]
   (every? #(<= 0 % 9) digits))
 
 (defn largest-product
-  "Calculates the largest product for a contiguous substring of digits
-  of length n."
   [n s]
-  (if (< n 0)
-    (throw (Exception.))
-    (let [digits (int->digits s)]
-      (if (or (> n (count digits))
-              (not (valid-digits? digits)))
-        (throw (Exception.))
-        (if (= 0 n)
-          1
-          (apply max (map #(apply * %) (partition n 1 digits))))))))
+  (let [digits (string-int->digits s)]
+    (if (or (neg? n)
+            (and (pos? n) (empty? digits))
+            (not (valid-digits? digits)))
+      (throw (Exception.))
+      (if (zero? n)
+        1
+        (->> digits
+             (partition n 1)
+             (map #(apply * %))
+             (apply max))))))
