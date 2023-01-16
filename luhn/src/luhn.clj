@@ -1,20 +1,19 @@
 (ns luhn)
 
-(defn clean-chars
+(defn remove-spaces
   "Removes spaces from the given string."
   [s]
-  (filter #(not= \space %) s))
+  (remove #(= \space %) s))
 
-(defn- to-digits
-  "Converts a seq of chars to a seq of numbers. Numerical
-  chars always map to the corresponding numerical value."
-  [chars]
-  (map #(- (int %) 48)
-       chars))
+(defn string->digits
+  "Converts a string that represents a non-negative integer
+  to a seq of its digits."
+  [s]
+  (map #(- (int %) 48) s))
 
-(defn valid-num?
-  "Returns true if digits seq represents a valid number.
-  Sequences with less than 2 items are considered invalid."
+(defn valid-int?
+  "Returns true if digits consists of numbers from 0 to 9,
+  else false. Sequences with less than 2 items are considered invalid."
   [digits]
   (and (> (count digits) 1)
        (every? #(<= 0 % 9) digits)))
@@ -23,18 +22,23 @@
   "Returns the value of a number according to the luhn
   formula. The number is represented by a seq of its digits."
   [digits]
-  (let [partitioned (partition 2 2 [0] (reverse digits))]
-    (reduce (fn [result [first-digit second-digit]]
-              (let [doubled (* 2 second-digit)]
-                (if (> doubled 9)
-                  (+ result first-digit (- doubled 9))
-                  (+ result first-digit doubled))))
-            0 partitioned)))
+  (let [padded-digits (if (even? (count digits))
+                        digits
+                        (cons 0 digits))]
+    (loop [result 0
+           padded-digits padded-digits]
+      (if (seq padded-digits)
+        (let [[d1 d2 & rest-digits] padded-digits]
+          (let [doubled-d1 (* 2 d1)]
+            (if (> doubled-d1 9)
+              (recur (+ result d2 (- doubled-d1 9)) rest-digits)
+              (recur (+ result d2 doubled-d1) rest-digits))))
+        result))))
 
 (defn valid?
   "Returns true if the given string represents a valid
   luhn number, false otherwise."
   [s]
-  (let [digits (to-digits (clean-chars s))]
-    (and (valid-num? digits)
+  (let [digits (string->digits (remove-spaces s))]
+    (and (valid-int? digits)
          (int? (/ (luhn-value digits) 10)))))
