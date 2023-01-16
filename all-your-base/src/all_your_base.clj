@@ -9,7 +9,7 @@
 
 (defn to-base10
   "Given a seq of decimal values that represent a number in the
-  given base, it computes the decimal equivalent of that number."
+  given base (0 <= val < base), it computes the number in base 10."
   [decimal-vals base]
   (when (and (seq decimal-vals) (> base 1) (valid-num? decimal-vals base))
     (+ (reduce #(* base (+ %1 %2))

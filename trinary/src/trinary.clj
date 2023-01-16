@@ -19,7 +19,7 @@
 
 (defn compute-decimal
   "Given a seq of decimal values that represent a trinary
-  number, it computes the decimal equivalent of that number."
+  number (0 <= val < 3), it computes the number in base 10."
   [decimal-values]
   (+ (last decimal-values)
      (reduce (fn [result digit]
