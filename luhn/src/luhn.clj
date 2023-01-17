@@ -35,6 +35,34 @@
               (recur (+ result d2 doubled-d1) rest-digits))))
         result))))
 
+;; ----------------------------------------------------------
+;; solution 2
+(defn transform
+  "Transforms the value at the given index according to the luhn
+  formula:
+  1) Values at odd indices remain the same.
+  2) Values at even indices are doubled and then reduced by 9 if
+  result is > 9."
+  [idx val]
+  (if (odd? idx)
+    val
+    (let [dval (* 2 val)]
+      (if (> dval 9)
+        (- dval 9)
+        dval))))
+
+(defn luhn-value2
+  "Returns the value of a number according to the luhn
+  formula. The number is represented by a seq of its digits."
+  [digits]
+  (let [padded-digits (if (even? (count digits))
+                        digits
+                        (cons 0 digits))]
+    (->> padded-digits
+         (map-indexed transform)
+         (apply +))))
+;; ----------------------------------------------------------      
+
 (defn valid?
   "Returns true if the given string represents a valid
   luhn number, false otherwise."
