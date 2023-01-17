@@ -1,69 +1,55 @@
 (ns crypto-square)
 
-;; tests cipher-3 and cipher-5 fail, they are using
-;; incorrectly normalized ciphertexts
-
 (defn normalize-plaintext
-  "Normalizes a string: removes spaces & punctuation, converts
+  "Normalizes a string: Keeps letters and numbers, converts
   to lowercase."
   [s]
-  (-> s
-      (clojure.string/replace #"[^A-Za-z0-9]" "")
-      clojure.string/lower-case))
+  (->> s
+       (re-seq #"[A-Za-z0-9]+")
+       (apply str)
+       clojure.string/lower-case))
 
 (defn square-size
-  "Returns the columns of the rectangle that will be used
-   for organizing the normalized version of the given string."
+  "Returns a number that can be used to partition the given
+  string into r strings of equal length c. The number satisfies
+  c >= r and c - r <= 1."
   [s]
-  (let [rounded-sqrt (-> s
-                        normalize-plaintext
-                        count
-                        Math/sqrt
-                        Math/round)]
-    (if (>= (* rounded-sqrt rounded-sqrt) (count s))
-      rounded-sqrt
-      (inc rounded-sqrt))))
+  (-> s
+      count
+      Math/sqrt
+      Math/ceil
+      Math/round))
 
 (defn plaintext-segments
-  "Returns a vector of strings, this is essentially the
-  normalized version of the given string organized in rows."
+  "Partitions the given string according to the number specified
+  by the square-size function."
   [s]
-  (let [norm-s (normalize-plaintext s)
-        cols (square-size s)]
-    (mapv #(apply str %) (partition-all cols cols norm-s))))
+  (let [normalized (normalize-plaintext s)
+        segment-length (square-size normalized)]
+    (->> normalized
+         (partition-all segment-length)
+         (map #(apply str %)))))
 
 (defn ciphertext
-  "Returns the encoded text of the given string."
+  "Returns the encoded string."
   [s]
-  (let [norm-s (normalize-plaintext s)
-        segments (plaintext-segments norm-s)]
+  (let [normalized (normalize-plaintext s)
+        segments (plaintext-segments normalized)]
     (loop [result []
            segments segments]
       (if (seq (first segments))
-        (recur (into result (mapv first segments))
+        (recur (into result (map first segments))
                (map rest segments))
         (apply str result)))))
 
-(defn pad
-  "Replaces nil items with spaces and adds an
-  extra space at the end of coll."
-  [coll]
-  (conj (reduce (fn [result x]
-                  (if (nil? x)
-                    (conj result \space)
-                    (conj result x)))
-                [] coll)
-        \space))
-
 (defn normalize-ciphertext
-  "Returns a normalized version of the encoded text
-  of the given string."
+  "Returns a normalized version of the encoded string."
   [s]
-  (let [norm-s (normalize-plaintext s)
-        segments (plaintext-segments norm-s)]
+  (let [normalized (normalize-plaintext s)
+        segments (plaintext-segments normalized)]
     (loop [result []
            segments segments]
       (if (seq (first segments))
-        (recur (into result (pad (mapv first segments)))
-               (map rest segments))
-        (apply str (butlast result))))))
+        (let [ciphertext-segment (apply str (replace {nil \space} (map first segments)))]
+          (recur (conj result ciphertext-segment) (map rest segments)))
+        (clojure.string/join " " result)))))
