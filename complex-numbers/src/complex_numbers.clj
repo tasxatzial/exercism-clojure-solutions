@@ -39,6 +39,6 @@
 (defn div
   "Divides a + bI by c + dI."
   [[a b] [c d]]
-  (let [denom (+ (* c c) (* d d))]
-    [(float (/ (+ (* a c) (* b d)) denom))
-     (float (/ (- (* b c) (* a d)) denom))]))
+  (let [denom (float (+ (* c c) (* d d)))]
+    [(/ (+ (* a c) (* b d)) denom)
+     (/ (- (* b c) (* a d)) denom)]))
