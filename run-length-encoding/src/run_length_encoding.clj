@@ -1,8 +1,8 @@
 (ns run-length-encoding)
 
 (defn encode
-  "Takes a seq of characters and returns a compressed string.
-  Assumes that all characters are the same."
+  "Takes a seq or string of the same characters and returns a
+  compressed string."
   [coll]
   (let [coll-count (count coll)]
     (if (> coll-count 1)
@@ -11,36 +11,25 @@
 
 (defn decode
   "Takes a string that represents a compressed character sequence
-  and decompresses it into a seq. For example: 3B is converted into
-  a seq of three B strings."
-  [str]
-  (let [str-seq (re-seq #"\d+|\D" str)]
-    (if-let [char (second str-seq)]
-      (->> char
-           repeat
-           (take (Integer/parseInt (first str-seq))))
-      str-seq)))
+  and decompresses it."
+  [s]
+  (let [string-char (re-find #"\D" s)]
+    (if-let [string-num (re-find #"\d+" s)]
+      (->> string-char
+           (repeat (Integer/parseInt string-num))
+           (apply str))
+      string-char)))
 
 (defn run-length-encode
-  [text]
-  (->> text
+  [s]
+  (->> s
        (partition-by identity)
        (map encode)
        (apply str)))
 
 (defn run-length-decode
-  [text]
-  (->> text
+  [s]
+  (->> s
        (re-seq #"\d*.")
        (map decode)
-       (apply concat)
        (apply str)))
-
-;; should be faster for strings that have high compression ratio 
-(defn run-length-decode2
-  [text]
-  (let [text-seq (re-seq #"\d*." text)]
-    (reduce (fn [result compressed]
-              (str result (apply str (decode compressed))))
-            ""
-            text-seq)))
