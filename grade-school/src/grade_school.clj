@@ -11,7 +11,7 @@
   (update school grade (fnil conj []) name))
 
 (defn sorted
-  "Get a sorted list of all students in all grades. Names in
+  "Get a sorted map (by grade) of all students. Names in
   each grade are also sorted."
   [school]
   (reduce (fn [result [grade grade-names]]

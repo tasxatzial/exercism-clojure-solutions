@@ -7,20 +7,20 @@
 
 (defn string->digits
   "Converts a string that represents a non-negative integer
-  to a seq of its digits."
+  to a seq of its digits (integers)."
   [s]
   (map #(- (int %) 48) s))
 
 (defn valid-int?
-  "Returns true if digits consists of numbers from 0 to 9,
-  else false. Sequences with less than 2 items are considered invalid."
+  "Returns true if the given collection consists of numbers from 0 to 9,
+  else false. Collections with less than 2 items are considered invalid."
   [digits]
   (and (> (count digits) 1)
        (every? #(<= 0 % 9) digits)))
 
 (defn luhn-value
   "Returns the value of a number according to the luhn
-  formula. The number is represented by a seq of its digits."
+  formula. The number is represented by a collection of its digits."
   [digits]
   (let [padded-digits (if (even? (count digits))
                         digits
@@ -53,7 +53,7 @@
 
 (defn luhn-value2
   "Returns the value of a number according to the luhn
-  formula. The number is represented by a seq of its digits."
+  formula. The number is represented by a collection of its digits."
   [digits]
   (let [padded-digits (if (even? (count digits))
                         digits

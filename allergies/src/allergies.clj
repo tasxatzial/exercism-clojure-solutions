@@ -4,8 +4,7 @@
 (def allergens-power (zipmap allergens (range (count allergens))))
 
 (defn allergic-to?
-  "Returns true if the score implies allergy to an allergen,
-  else false."
+  "Returns true if the score implies allergy to an allergen, else false."
   [score allergen]
   (->> allergen
        allergens-power

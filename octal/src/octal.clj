@@ -12,14 +12,14 @@
   (map oct-char->dec s))
 
 (defn valid-oct?
-  "Returns true if the seq of decimal values represents a valid
+  "Returns true if the collection of decimal values represents a valid
   octal number, false otherwise."
   [decimal-values]
   (every? #(<= 0 % 7) decimal-values))
 
 (defn compute-decimal
-  "Given a seq of decimal values that represent an octal
-  number (0 <= val < 8), it computes the number in base 10."
+  "Given a collection of decimal values (0 <= val < 8) that represents
+  an octal number, it computes the number in base 10."
   [decimal-values]
   (+ (last decimal-values)
      (reduce (fn [result digit]

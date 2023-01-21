@@ -19,7 +19,7 @@
       (subs 0 3)))
 
 (defn pretty-print
-  "Formats a valid phone number as (NXX) NXX-XXXX."
+  "Formats a phone number as (NXX) NXX-XXXX."
   [s]
   (let [n (number s)]
     (format "(%s) %s-%s" (subs n 0 3) (subs n 3 6) (subs n 6))))

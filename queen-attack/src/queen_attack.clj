@@ -5,14 +5,12 @@
 
 (defn get-board-index
   "Transforms a (x,y) board position to the corresponding
-  one dimensional index. Both x and y take values from
-  0 to 7."
+  one dimensional index. Both x and y take values from 0 to 7."
   [x y]
   (+ (* 16 x) (* 2 y)))
 
 (defn board-string
-  "Places white and black queens on the board using the
-  given positions map."
+  "Places the white and black queens on the board."
   [positions]
   (if (empty? positions)
     empty-board
@@ -23,8 +21,7 @@
                      (assoc (get-board-index bx by) \B))))))
 
 (defn can-attack
-  "Returns true if the queens in the given positions map can
-  attack each other, else false."
+  "Returns true if the queens can attack each other, else false."
   [positions]
   (let [[wx wy] (:w positions)
         [bx by] (:b positions)]

@@ -9,6 +9,8 @@
     (count (filter #{nucleotide} strand))))
 
 (defn nucleotide-counts
+  "Returns a map of {nucleotide -> nucleotide count} for all
+  nucleotides in the given strand."
   [strand]
   (reduce (fn [result nucleotide]
             (let [nucleotide-count (count-of-nucleotide-in-strand nucleotide strand)]

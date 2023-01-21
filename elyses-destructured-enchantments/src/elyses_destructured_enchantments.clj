@@ -19,7 +19,7 @@
     (into rest-cards [f s])))
 
 (defn discard-top-card
-  "Returns a sequence containing the first card and
+  "Returns a vector containing the first card and
    a sequence of the remaining cards in the deck."
   [deck]
   (let [[f & rest-cards] deck]

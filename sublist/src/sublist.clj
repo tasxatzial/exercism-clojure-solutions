@@ -1,7 +1,7 @@
 (ns sublist)
 
 (defn sublist?
-  "Returns true of list2 is a sublist of list1, false otherwise."
+  "Returns true if list2 is a sublist of list1, false otherwise."
   [list1 list2]
   (let [partitioned-list1 (partition (count list2) 1 list1)]
     (or (some #(= list2 %) partitioned-list1)

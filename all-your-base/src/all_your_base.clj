@@ -1,15 +1,15 @@
 (ns all-your-base)
 
 (defn valid-num?
-  "Returns true if the decimal values represent a valid
+  "Returns true if the collection of decimal values represents a valid
   number in the given base, false otherwise."
   [decimal-vals base]
   (every? #(and (>= % 0) (< % base))
           decimal-vals))
 
 (defn to-base10
-  "Given a seq of decimal values that represent a number in the
-  given base (0 <= val < base), it computes the number in base 10."
+  "Given a collection of decimal values (0 <= val < base) that represents
+  a number in the given base, it computes the number in base 10."
   [decimal-vals base]
   (when (and (seq decimal-vals) (> base 1) (valid-num? decimal-vals base))
     (+ (reduce #(* base (+ %1 %2))

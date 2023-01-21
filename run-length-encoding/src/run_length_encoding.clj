@@ -1,17 +1,18 @@
 (ns run-length-encoding)
 
-(defn encode
-  "Takes a seq or string of the same characters and returns a
-  compressed string."
+(defn encode-single
+  "Takes a string that consists of the same char and
+  returns the compressed equivalent."
   [coll]
   (let [coll-count (count coll)]
     (if (> coll-count 1)
       (str coll-count (first coll))
       (str (first coll)))))
 
-(defn decode
-  "Takes a string that represents a compressed character sequence
-  and decompresses it."
+(defn decode-single
+  "Takes a string that represents the compressed form of a
+  sequence that consists of the same char and returns the
+  decompressed equivalent."
   [s]
   (let [string-char (re-find #"\D" s)]
     (if-let [string-num (re-find #"\d+" s)]
@@ -24,12 +25,12 @@
   [s]
   (->> s
        (partition-by identity)
-       (map encode)
+       (map encode-single)
        (apply str)))
 
 (defn run-length-decode
   [s]
   (->> s
        (re-seq #"\d*.")
-       (map decode)
+       (map decode-single)
        (apply str)))

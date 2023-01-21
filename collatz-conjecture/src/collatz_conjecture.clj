@@ -8,6 +8,7 @@
     ((comp inc *) n 3)))
 
 (defn collatz
+  "Returns the number of steps required to reach 1."
   [n]
   (if (pos-int? n)
     (loop [n n
@@ -27,6 +28,7 @@
       (cons n (collatz-seq (collatz-next n))))))
 
 (defn collatz2
+  "Returns the number of steps required to reach 1."
   [n]
   (if (pos-int? n)
     (count (collatz-seq n))

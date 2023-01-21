@@ -7,8 +7,8 @@
   (map #(Character/digit ^char % 10) s))
 
 (defn valid-digits?
-  "Returns true if the given seq contains only integers between 0 and 9,
-  false otherwise."
+  "Returns true if the given collection contains only integers
+  between 0 and 9, false otherwise."
   [digits]
   (every? #(<= 0 % 9) digits))
 

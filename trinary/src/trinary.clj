@@ -12,14 +12,14 @@
   (map trinary-char->dec s))
 
 (defn valid-trinary?
-  "Returns true if the seq of decimal values represents a valid
+  "Returns true if collection seq of decimal values represents a valid
   trinary number, false otherwise."
   [decimal-values]
   (every? #(<= 0 % 2) decimal-values))
 
 (defn compute-decimal
-  "Given a seq of decimal values that represent a trinary
-  number (0 <= val < 3), it computes the number in base 10."
+  "Given a seq of decimal values (0 <= val < 3) that represents
+  a trinary number, it computes the number in base 10."
   [decimal-values]
   (+ (last decimal-values)
      (reduce (fn [result digit]
