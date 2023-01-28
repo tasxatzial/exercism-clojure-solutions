@@ -1,37 +1,36 @@
 (ns nth-prime)
 
+;; solution 1
+
 (defn composite?
-  "Returns true if any of the primes is a factor of n,
-  false otherwise."
+  "Returns true if n has any of the primes as a factor, else false.
+  Primes includes all primes which are <= square root of n."
   [n primes]
-  (let [sqr-primes (take-while #(< % (inc (Math/sqrt n)))
-                               primes)]
-    (some #(zero? (mod n %))
-          sqr-primes)))
+  (->> primes
+       (take-while #(< % (inc (Math/sqrt n))))
+       (some #(zero? (mod n %)))
+       boolean))
 
-(defn next-prime
-  "Returns the next prime given a vector of primes
-  in increasing order."
-  [primes]
-  (loop [candidate (inc (peek primes))]
-    (if (composite? candidate primes)
-      (recur (inc candidate))
-      candidate)))
-
-(defn nth-prime2
-  "Returns the nth prime."
+(defn primes
+  "Returns all primes in [2, n]."
   [n]
-  (cond
-    (zero? n) (throw (IllegalArgumentException.))
-    (= 1 n) 2
-    :else (loop [primes [2]]
-            (if (= n (count primes))
-              (peek primes)
-              (recur (conj primes (next-prime primes)))))))
+  (loop [n n
+         result []
+         i 2]
+    (if (zero? n)
+      result
+      (if (composite? i result)
+        (recur n result (inc i))
+        (recur (dec n) (conj result i) (inc i))))))
 
-;; -------------------------------
+(defn nth-prime
+  [n]
+  (if (zero? n)
+    (throw (IllegalArgumentException.))
+    (last (primes n))))
+
+;; ---------------------------------------------
 ;; solution2: using a sieve
-;; this is a lot faster for large N
 
 (defn composites
   "Returns a lazy seq of composites in [2, max].
