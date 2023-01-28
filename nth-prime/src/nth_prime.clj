@@ -30,38 +30,37 @@
     (last (primes n))))
 
 ;; ---------------------------------------------
-;; solution2: using a sieve
+;; solution 2: sieve
+;; this is a lot faster for large n
 
-(defn composites
-  "Returns a lazy seq of composites in [2, max].
-  Even numbers are left out."
-  [max]
-  (for [i (range 3 (inc (Math/round (Math/sqrt max))) 2)
-        k (range i (inc (/ max i)) 2)]
+(defn get-non-even-composites
+  "Returns a lazy seq of composites in [2, n]. Even numbers are excluded."
+  [n]
+  (for [i (range 3 (inc (Math/round (Math/sqrt n))) 2)
+        k (range i (inc (/ n i)) 2)]
     (* i k)))
 
 (defn sieve
-  "Returns all primes in [2, max]."
-  [max]
-  (if (< max 2)
+  "Returns all primes in [2, n]. "
+  [n]
+  (if (< n 2)
     ()
-    (let [numbers (cons 2 (range 3 (inc max) 2))]
-      (remove (set (composites max)) numbers))))
+    (let [candidates (cons 2 (range 3 (inc n) 2))
+          composites (get-non-even-composites n)]
+      (remove (set composites) candidates))))
 
 (defn sieve-range
-  "Returns a range that contains the Nth prime. This
-  is valid for n>= 6."
-  [N]
-  (let [b (+ (* (Math/log N) N)
-             (* N (Math/log (Math/log N))))]
-    [(- b N) b]))
+  "Returns a range that contains the nth prime. Valid for n>= 6."
+  [n]
+  (let [b (+ (* (Math/log n) n)
+             (* (Math/log (Math/log n)) n))]
+    [(- b n) b]))
 
 (defn nth-prime
-  "Returns the nth prime."
   [n]
   (cond
     (zero? n) (throw (IllegalArgumentException.))
-    (< n 6) (nth [2 3 5 7 11] (dec n))
+    (< n 6) (get [2 3 5 7 11] (dec n))
     :else (let [upper-lim (second (sieve-range n))
                 primes (sieve upper-lim)]
             (nth primes (dec n)))))
