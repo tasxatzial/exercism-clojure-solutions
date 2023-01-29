@@ -23,6 +23,7 @@
    (lazy-seq
      (cons (row n) (pascals-rows (inc n))))))
 
+;; solution 1
 (def triangle (pascals-rows))
 
 ;; solution 2

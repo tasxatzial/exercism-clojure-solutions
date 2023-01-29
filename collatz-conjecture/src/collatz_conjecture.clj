@@ -18,7 +18,9 @@
         (recur (collatz-next n) (inc steps))))
     (throw (Exception.))))
 
-;; lazy
+;; ---------------------------------------------------------
+;; solution 2: lazy
+
 (defn collatz-seq
   "Returns a lazy seq of the numbers produced by the collatz
   conjecture algorithm for the given n."
