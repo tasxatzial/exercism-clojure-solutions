@@ -3,8 +3,8 @@
 (defn get-non-even-composites
   "Returns a lazy seq of composites in [2, n]. Even numbers are excluded."
   [n]
-  (for [i (range 3 (inc (Math/round (Math/sqrt n))) 2)
-        k (range i (inc (/ n i)) 2)]
+  (for [i (range 3 (inc (Math/round (Math/floor (Math/sqrt n)))) 2)
+        k (range i (inc (Math/round (Math/floor (/ n i)))) 2)]
     (* i k)))
 
 (defn sieve
