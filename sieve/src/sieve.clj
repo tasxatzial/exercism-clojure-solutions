@@ -20,31 +20,35 @@
 
 ;; ---------------------------------------------------------
 ;; solution 2
-;; Modified algorithm and used transient. This is a lot faster.
+;; improved version of solution 1 + transients
 
-(defn delete-mult
-  "Deletes multiples of i (except i) from nums
-  (replaces them with 0)"
-  [i nums max]
-  (let [lim (Math/round (Math/floor (/ max i)))
-        k (if (even? lim) (dec lim) lim)]
-    (loop [k k
-           nums nums]
-      (if (< k i)
-        nums
-        (if (pos? (get nums (/ (- k 3) 2)))
-          (recur (- k 2) (assoc! nums (/ (- (* i k) 3) 2) 0))
-          (recur (- k 2) nums))))))
+(defn mark-multiples
+  "Sets to nil all candidates x which are multiples of i and
+  satisfy i*i <= x <= n."
+  [i candidates n]
+  (let [max-k (Math/round (Math/floor (/ n i)))
+        end (if (even? max-k) (dec max-k) max-k)
+        kk (range end (dec i) -2)]
+    (reduce (fn [result k]
+              (if (get result (/ (- k 3) 2))
+                (assoc! result (/ (- (* i k) 3) 2) nil)
+                result))
+            candidates
+            kk)))
+
+(defn mark-composites
+  "Sets to nil all composites numbers in [2, n]."
+  [n]
+  (let [candidates (transient (vec (range 3 (inc n) 2)))
+        ii (range 3 (Math/round (Math/ceil (Math/sqrt n))) 2)]
+    (cons 2 (persistent!
+              (reduce (fn [result i]
+                        (if (get result (/ (- i 3) 2))
+                          (mark-multiples i result n)
+                          result))
+                      candidates
+                      ii)))))
 
 (defn sieve2
-  "Returns all primes in [2, max]."
-  [max]
-  (let [nums (transient (vec (range 3 (inc max) 2)))
-        sqrt (Math/round (Math/floor (Math/sqrt max)))]
-    (loop [i 3
-           nums nums]
-      (if (> i sqrt)
-        (cons 2 (filter pos? (persistent! nums)))
-        (if (pos? (get nums (/ (- i 3) 2)))
-          (recur (+ i 2) (delete-mult i nums max))
-          (recur (+ i 2) nums))))))
+  [n]
+  (filter some? (mark-composites n)))
