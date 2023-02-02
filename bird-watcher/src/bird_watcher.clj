@@ -1,5 +1,8 @@
 (ns bird-watcher)
 
+(def odd-week
+  [1 0 1 0 1 0 1])
+
 (def last-week
   [0 2 5 3 7 8 4])
 
@@ -9,32 +12,27 @@
 
 (defn inc-bird
   [birds]
-  (assoc birds (dec (count birds)) (inc (today birds))))
+  (let [todays-idx (dec (count birds))]
+    (assoc birds todays-idx (inc (today birds)))))
 
 (defn day-without-birds?
   [birds]
-  (or (some zero? birds) false))
+  (true? (some zero? birds)))
 
 (defn n-days-count
   [birds n]
-  (apply + (take n birds)))
+  (reduce + (take n birds)))
+
+(defn busy-day?
+  [bird-count]
+  (>= bird-count 5))
 
 (defn busy-days
   [birds]
   (->> birds
-       (filter #(>= % 5))
+       (filterv busy-day?)
        count))
-
-(defn extract-indexes
-  [pred]
-  (partial keep-indexed #(if (pred %1) %2)))
-
-(def extract-odd-indexes (extract-indexes odd?))
-(def extract-even-indexes (extract-indexes even?))
 
 (defn odd-week?
   [birds]
-  (let [even-days (extract-even-indexes birds)
-        odd-days (extract-odd-indexes birds)]
-    (and (every? #{1} even-days)
-         (every? #{0} odd-days))))
+  (= birds odd-week))
