@@ -2,25 +2,21 @@
 
 (defn retain
   [f coll]
-  (loop [result []
-         coll coll]
-    (if (seq coll)
-      (let [[item & rest-items] coll]
-        (if (true? (f item))
-          (recur (conj result item) rest-items)
-          (recur result rest-items)))
-      result)))
+  (reduce (fn [result el]
+            (if (f el)
+              (conj result el)
+              result))
+          []
+          coll))
 
 (defn discard
   [f coll]
-  (loop [result []
-         coll coll]
-    (if (seq coll)
-      (let [[item & rest-items] coll]
-        (if (true? (f item))
-          (recur result rest-items)
-          (recur (conj result item) rest-items)))
-      result)))
+  (reduce (fn [result el]
+            (if (f el)
+              result
+              (conj result el)))
+          []
+          coll))
 
 ;; lazy retain
 (defn retain-lazy
@@ -28,7 +24,7 @@
   (lazy-seq
     (when (seq coll)
       (let [[item & rest-items] coll]
-        (if (true? (f item))
+        (if (f item)
           (cons item (retain-lazy f rest-items))
           (retain-lazy f rest-items))))))
 
@@ -38,6 +34,6 @@
   (lazy-seq
     (when (seq coll)
       (let [[item & rest-items] coll]
-        (if (true? (f item))
+        (if (f item)
           (discard-lazy f rest-items)
           (cons item (discard-lazy f rest-items)))))))
