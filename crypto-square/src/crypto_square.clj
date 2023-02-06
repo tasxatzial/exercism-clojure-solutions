@@ -14,11 +14,7 @@
   string into r strings of equal length c. The number satisfies
   c >= r and c - r <= 1."
   [s]
-  (-> s
-      count
-      Math/sqrt
-      Math/ceil
-      Math/round))
+  (-> s count Math/sqrt Math/ceil Math/round))
 
 (defn plaintext-segments
   "Partitions the given string according to the number specified
@@ -43,13 +39,51 @@
         (apply str result)))))
 
 (defn normalize-ciphertext
-  "Returns a normalized version of the encoded string."
+  "Returns a normalized version of the encoded string of s."
   [s]
   (let [normalized (normalize-plaintext s)
         segments (plaintext-segments normalized)]
     (loop [result []
            segments segments]
       (if (seq (first segments))
-        (let [ciphertext-segment (apply str (replace {nil \space} (map first segments)))]
+        (let [first-chars (map first segments)
+              ciphertext-segment (apply str (replace {nil \space} first-chars))]
           (recur (conj result ciphertext-segment) (map rest segments)))
         (clojure.string/join " " result)))))
+
+;; ---------------------------------------------------------
+;; solution 2
+
+(defn interleave-all
+  "Returns a collection that consists of a seq of the first elements of
+  each of the collections, then a seq of the second elements etc.
+  Assumes that the first collection is the longest one. Non-existing
+  elements are replaced with nil."
+  [colls]
+  (loop [result []
+         colls colls]
+    (if (seq (first colls))
+      (recur (conj result (map first colls))
+             (map rest colls))
+      result)))
+
+(defn ciphertext2
+  "Returns the encoded string."
+  [s]
+  (->> s
+       normalize-plaintext
+       plaintext-segments
+       interleave-all
+       (map #(apply str %))
+       (apply str)))
+
+(defn normalize-ciphertext2
+  "Returns a normalized version of the encoded string of s."
+  [s]
+  (->> s
+       normalize-plaintext
+       plaintext-segments
+       interleave-all
+       (map #(replace {nil \space} %))
+       (map #(apply str %))
+       (clojure.string/join " ")))
