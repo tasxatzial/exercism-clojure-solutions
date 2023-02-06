@@ -1,29 +1,28 @@
 (ns perfect-numbers)
 
-(defn get-non-even-composites
-  "Returns a lazy seq of composites in [2, n]. Even numbers are excluded."
-  [n]
-  (for [i (range 3 (inc (Math/round (Math/floor (Math/sqrt n)))) 2)
-        k (range i (inc (Math/round (Math/floor (/ n i)))) 2)]
-    (* i k)))
+(defn prime?
+  "Returns true if N is prime. This will happen if N is a multiple
+  of any number in the given list of primes."
+  [N primes]
+  (reduce (fn [result prime]
+            (if (> prime (inc (Math/sqrt N)))
+              (reduced true)
+              (if (= 0 (mod N prime))
+                (reduced false)
+                result)))
+          true
+          primes))
 
-(defn sieve
-  "Returns all primes in [2, n]. "
+(defn get-primes
+  "Returns all primes in [2, n]."
   [n]
-  (if (< n 2)
-    ()
-    (let [candidates (cons 2 (range 3 (inc n) 2))
-          composites (get-non-even-composites n)]
-      (vec (remove (set composites) candidates)))))
-
-(defn composite?
-  "Returns true if n has any of the primes as a factor, else false.
-  Primes includes all primes which are <= square root of n."
-  [n primes]
-  (->> primes
-       (take-while #(< % (inc (Math/sqrt n))))
-       (some #(zero? (mod n %)))
-       boolean))
+  (loop [result []
+         n0 2]
+    (if (> n0 n)
+      result
+      (if (prime? n0 result)
+        (recur (conj result n0) (inc n0))
+        (recur result (inc n0))))))
 
 (defn get-factors
   "Returns the prime factors of n. Each factor appears as many times
@@ -31,18 +30,18 @@
   [n]
   (if (= n 1)
     []
-    (let [primes (sieve (Math/round (Math/sqrt n)))]
+    (let [primes (get-primes (Math/round (Math/sqrt n)))]
       (loop [result []
              num n
              i 0]
         (if-let [nth-prime (get primes i)]
           (let [quotient (/ num nth-prime)]
             (if (int? quotient)
-              (if (composite? quotient primes)
-                (recur (conj result nth-prime) quotient i)
+              (if (prime? quotient primes)
                 (if (= 1 quotient)
                   (conj result nth-prime)
-                  (conj result nth-prime quotient)))
+                  (conj result nth-prime quotient))
+                (recur (conj result nth-prime) quotient i))
               (recur result num (inc i))))
           (or (seq result) [n]))))))
 
