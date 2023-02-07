@@ -24,17 +24,13 @@
   "Given a collection of decimal values (0 <= val < 16) that represents
   a hexadecimal number, it computes the number in base 10."
   [decimal-values]
-  (+ (last decimal-values)
-     (reduce (fn [result digit]
-               (* 16 (+ result digit)))
-             0
-             (butlast decimal-values))))
+  (when (valid-hex? decimal-values)
+    (reduce #(+ %2 (* 16 %1))
+            0 decimal-values)))
 
 (defn hex-to-int
   "Converts the given hex number (string) to the decimal equivalent.
   Returns 0 if the string does not represent a valid hex number."
   [s]
   (let [dec-values (hex->dec-values s)]
-    (if (valid-hex? dec-values)
-      (compute-decimal dec-values)
-      0)))
+    (or (compute-decimal dec-values) 0)))
