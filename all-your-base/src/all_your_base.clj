@@ -1,28 +1,29 @@
 (ns all-your-base)
 
 (defn valid-base?
-  "Returns true if the given base is an integer > 1, else false."
+  "Returns true if the given base is an integer >1, else false."
   [b]
   (and (> b 1) (integer? b)))
 
-(defn valid-num?
-  "Multi-arity function;
-  1) If called with 1 args: Returns true if the given number is integer >= 0,
-  else false.
-  2) If called with 2 args: Returns true if the collection of decimal values
+(defn valid-digits?
+  "Returns true if the collection of decimal values
   represents a valid number in the given base, else false."
-  ([n]
-   (and (integer? n) (>= n 0)))
-  ([decimal-vals base]
-   (and (seq decimal-vals)
-        (every? #(and (integer? %) (>= % 0) (< % base))
-                decimal-vals))))
+  [decimal-vals base]
+  (and (seq decimal-vals)
+       (valid-base? base)
+       (every? #(and (integer? %) (>= % 0) (< % base))
+               decimal-vals)))
+
+(defn valid-num?
+  "Returns true if n is an integer >=0, else false."
+  [n]
+  (and (integer? n) (>= n 0)))
 
 (defn to-base10
-  "Given a collection of decimal values that represent
-  a number in the given base, it computes the number in base 10."
+  "Converts a collection of decimal values that represent
+  a number in the given base to a base 10 number."
   [decimal-vals base]
-  (when (and (valid-num? decimal-vals base) (valid-base? base))
+  (when (valid-digits? decimal-vals base)
     (reduce #(+ %2 (* base %1))
             0 decimal-vals)))
 
