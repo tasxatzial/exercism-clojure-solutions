@@ -7,40 +7,44 @@
 
 (def turn-right
   {:east :south
-  :south :west
-  :west :north
-  :north :east})
+   :south :west
+   :west :north
+   :north :east})
 
 (def turn-left
   {:east :north
-  :north :west
-  :west :south
-  :south :east})
+   :north :west
+   :west :south
+   :south :east})
 
-(defn coordinate-update
-  "Accepts a moving direction and returns a vector of:
-  1. The coordinate keyword that needs to be updated.
-  2. The function that will be used to update the corresponding coordinate."
-  [direction]
-  (case direction
-    :north [:y inc]
-    :east [:x inc]
-    :west  [:x dec]
-    :south [:y dec]))
+(def direction->coordinate-diff
+  {:north [:y inc]
+   :east [:x inc]
+   :west  [:x dec]
+   :south [:y dec]})
 
-(defn move
-  "Move the robot by 1 in the direction it's facing."
+(defn turn-robot-left
   [robot]
-  (let [direction (robot :bearing)
-        [coordinate-key advance-fn] (coordinate-update direction)]
-    (update-in robot [:coordinates coordinate-key] advance-fn)))
+  (update robot :bearing turn-left))
+
+(defn turn-robot-right
+  [robot]
+  (update robot :bearing turn-right))
+
+(defn move-robot
+  [robot]
+  (let [[k f] (-> robot :bearing direction->coordinate-diff)]
+    (update-in robot [:coordinates k] f)))
+
+(def instruction->callback
+  {\L turn-robot-left
+   \R turn-robot-right
+   \A move-robot})
+
+(defn execute-instruction
+  [robot instruction]
+  ((instruction->callback instruction) robot))
 
 (defn simulate
   [instructions robot]
-  (reduce (fn [robot instruction]
-            (case instruction
-              \L (update robot :bearing turn-left)
-              \R (update robot :bearing turn-right)
-              \A (move robot)))
-          robot
-          instructions))
+  (reduce execute-instruction robot instructions))
