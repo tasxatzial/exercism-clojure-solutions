@@ -3,8 +3,7 @@
 ;; solution 2
 
 (defn normalize-plaintext
-  "Normalizes a string: Keeps letters and numbers, converts
-  to lowercase."
+  "Keeps letters and numbers, converts to lowercase."
   [s]
   (->> s
        (re-seq #"[A-Za-z0-9]+")
@@ -12,15 +11,16 @@
        clojure.string/lower-case))
 
 (defn square-size
-  "Returns a number that can be used to partition the given
-  string into r strings of equal length c. The number satisfies
-  c >= r and c - r <= 1."
+  "Returns a number c that can be used to partition the given
+  string into r strings of maximum length c. The number c
+  satisfies c >= r and c - r <= 1."
   [s]
   (-> s count Math/sqrt Math/ceil Math/round))
 
 (defn plaintext-segments
-  "Partitions the given string according to the number specified
-  by the square-size function."
+  "Partitions the normalized string of s into a seq of strings.
+  The number of strings and their size are determined by the
+  square-size function."
   [s]
   (let [normalized (normalize-plaintext s)
         segment-length (square-size normalized)]
@@ -42,7 +42,7 @@
       result)))
 
 (defn ciphertext
-  "Returns the encoded string."
+  "Returns the encoded string of s."
   [s]
   (->> s
        normalize-plaintext
