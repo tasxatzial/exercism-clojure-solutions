@@ -40,9 +40,11 @@
   ([s]
    (encode s nil))
   ([s pad]
-   (->> (partition-into-square s pad)
-        (apply map str)
-        (clojure.string/join pad))))
+   (if (= "" s)
+     ""
+     (->> (partition-into-square s pad)
+          (apply map str)
+          (clojure.string/join pad)))))
 
 (defn ciphertext
   "Returns the encoded string of s."
