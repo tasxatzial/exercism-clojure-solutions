@@ -1,5 +1,7 @@
 (ns crypto-square)
 
+;; solution 1
+
 (defn normalize-plaintext
   "Normalizes a string: Keeps letters and numbers, converts
   to lowercase."
@@ -50,40 +52,3 @@
               ciphertext-segment (apply str (replace {nil \space} first-chars))]
           (recur (conj result ciphertext-segment) (map rest segments)))
         (clojure.string/join " " result)))))
-
-;; ---------------------------------------------------------
-;; solution 2
-
-(defn interleave-all
-  "Returns a collection that consists of a seq of the first elements of
-  each of the collections, then a seq of the second elements etc.
-  Assumes that the first collection is the longest one. Non-existing
-  elements are replaced with nil."
-  [colls]
-  (loop [result []
-         colls colls]
-    (if (seq (first colls))
-      (recur (conj result (map first colls))
-             (map rest colls))
-      result)))
-
-(defn ciphertext2
-  "Returns the encoded string."
-  [s]
-  (->> s
-       normalize-plaintext
-       plaintext-segments
-       interleave-all
-       (map #(apply str %))
-       (apply str)))
-
-(defn normalize-ciphertext2
-  "Returns a normalized version of the encoded string of s."
-  [s]
-  (->> s
-       normalize-plaintext
-       plaintext-segments
-       interleave-all
-       (map #(replace {nil \space} %))
-       (map #(apply str %))
-       (clojure.string/join " ")))
