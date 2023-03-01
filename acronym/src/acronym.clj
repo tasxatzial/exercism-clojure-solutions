@@ -3,7 +3,6 @@
 (defn acronym
   [s]
   (->> s
-       (re-seq #"\b\p{L}|\p{Ll}(\p{Lu})|-(\p{L})")
-       (map #(first (filter some? (rseq %))))
+       (re-seq #"\b\p{L}|(?<=\p{Ll})\p{Lu}|(?<=-)\p{L}")
        (apply str)
        clojure.string/upper-case))
