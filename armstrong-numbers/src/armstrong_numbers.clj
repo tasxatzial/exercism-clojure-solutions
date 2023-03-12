@@ -20,16 +20,11 @@
         (even? n) (recur (conj result square) (/ n 2))
         :else (recur (conj result times-x) (dec n))))))
 
-(defn armstrong-sum
-  "For the given number n, it returns the sum of its digits each raised to
-  the power of the number of digits."
+(defn armstrong?
   [n]
   (let [digits (int->digits n)
         digit-count (count digits)]
     (->> digits
          (map #(math-pow % digit-count))
-         (apply +'))))
-
-(defn armstrong?
-  [n]
-  (= n (armstrong-sum n)))
+         (reduce +)
+         (= n))))
