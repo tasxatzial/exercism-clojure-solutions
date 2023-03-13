@@ -34,7 +34,7 @@
     (loop [result ()
            n n]
       (if (zero? n)
-        (or (seq result) '(0))
+        (or (not-empty result) '(0))
         (let [r (rem n base)
               q (quot n base)]
           (recur (conj result r) q))))))
