@@ -1,20 +1,16 @@
 (ns sublist)
 
 (defn sublist?
-  "Returns true if list2 is a sublist of list1, false otherwise."
-  [list1 list2]
-  (let [partitioned-list1 (partition (count list2) 1 list1)]
-    (or (some #(= list2 %) partitioned-list1)
-        false)))
+  "Returns true if l2 is a sublist of l1, else false."
+  [l1 l2]
+  (->> (partition (count l2) 1 l1)
+       (some #(= l2 %))
+       true?))
 
 (defn classify
-  [list1 list2]
-  (if (and (empty? list1) (empty? list2))
-    :equal
-    (if (sublist? list2 list1)
-      (if (= (count list1) (count list2))
-        :equal
-        :sublist)
-      (if (sublist? list1 list2)
-        :superlist
-        :unequal))))
+  [l1 l2]
+  (cond
+    (= l1 l2) :equal
+    (sublist? l2 l1) :sublist
+    (sublist? l1 l2) :superlist
+    :else :unequal))
