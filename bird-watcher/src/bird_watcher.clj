@@ -12,8 +12,7 @@
 
 (defn inc-bird
   [birds]
-  (let [todays-idx (dec (count birds))]
-    (assoc birds todays-idx (inc (today birds)))))
+  (update birds (dec (count birds)) inc))
 
 (defn day-without-birds?
   [birds]
@@ -21,7 +20,7 @@
 
 (defn n-days-count
   [birds n]
-  (reduce + (take n birds)))
+  (reduce + (subvec birds 0 n)))
 
 (defn busy-day?
   [bird-count]
@@ -30,7 +29,7 @@
 (defn busy-days
   [birds]
   (->> birds
-       (filterv busy-day?)
+       (filter busy-day?)
        count))
 
 (defn odd-week?
