@@ -8,7 +8,7 @@
 
 (defn today
   [birds]
-  (last birds))
+  (peek birds))
 
 (defn inc-bird
   [birds]

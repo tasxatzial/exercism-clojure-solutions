@@ -29,4 +29,4 @@
   [n]
   (if (zero? n)
     (throw (IllegalArgumentException.))
-    (last (primes n))))
+    (peek (primes n))))
