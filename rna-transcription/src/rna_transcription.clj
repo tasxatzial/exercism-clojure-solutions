@@ -12,7 +12,6 @@
 
 (defn to-rna
   [s]
-  (let [chars-seq (seq s)]
-    (if (valid-dna? chars-seq)
-      (apply str (map dna->rna chars-seq))
-      (throw (AssertionError.)))))
+  (if (valid-dna? s) 
+    (apply str (map dna->rna s)) 
+    (throw (AssertionError.))))
