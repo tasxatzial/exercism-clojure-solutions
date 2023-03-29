@@ -7,7 +7,7 @@
 (defn yell?
   [s]
   (and (= s (clojure.string/upper-case s))
-       (boolean (re-find #"[A-Za-z]" s))))
+       (re-find #"[A-Za-z]" s)))
 
 (defn silence?
   [s]
