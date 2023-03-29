@@ -1,15 +1,16 @@
-(ns anagram)
+(ns anagram
+  (:require [clojure.string :as str]))
 
-(defn anagram?
+(defn- _anagram?
   "Returns true if target is an anagram of src. Assumes src
   is in lower-case."
-  [src target]
-  (let [lowercase-target (clojure.string/lower-case target)]
-    (and (not= src target)
-         (= (frequencies src) (frequencies lowercase-target)))))
+  [lowercase-src target]
+  (let [lowercase-target (str/lower-case target)]
+    (and (not= lowercase-src target)
+         (= (frequencies lowercase-src) (frequencies lowercase-target)))))
 
 (defn anagrams-for
   [word candidates]
-  (let [lowercase-word (clojure.string/lower-case word)
-        word-anagram? (partial anagram? lowercase-word)]
+  (let [lowercase-word (str/lower-case word)
+        word-anagram? (partial _anagram? lowercase-word)]
     (filter word-anagram? candidates)))
