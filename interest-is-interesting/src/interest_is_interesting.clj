@@ -1,11 +1,5 @@
 (ns interest-is-interesting)
 
-(defn abs
-  [x]
-  (if (< x 0)
-    (- x)
-    x))
-
 (defn percentage->double
   [percentage]
   (* 0.01 percentage))
