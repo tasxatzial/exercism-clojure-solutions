@@ -14,10 +14,8 @@
     (< balance 5000) 1.621
     :else 2.475))
 
-(defn extra-money
-  "Calculates the amount of money that will be added to the current
-  balance, taking into account the interest rate. The amount can be
-  negative or positive."
+(defn annual-balance-diff
+  "Calculates the annual balance difference."
   [balance]
   (-> balance
       interest-rate
@@ -29,7 +27,7 @@
   "Calculates the annual balance update, taking into account the
   interest rate."
   [balance]
-  (+ balance (extra-money balance)))
+  (+ balance (annual-balance-diff balance)))
 
 (defn amount-to-donate
   "Calculates how much money to donate to charities based on the
