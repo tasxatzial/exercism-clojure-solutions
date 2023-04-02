@@ -1,6 +1,6 @@
 (ns meetup)
 
-;; solution 1: functional approach
+;; functional approach
 
 (def first-day 1)
 

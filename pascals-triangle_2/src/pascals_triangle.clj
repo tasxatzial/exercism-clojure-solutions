@@ -15,12 +15,4 @@
       row
       (recur (next-row row) (dec N)))))
 
-(defn pascals-rows
-  "Returns a lazy seq of the rows of pascal's triangle."
-  ([]
-   (pascals-rows 1))
-  ([n]
-   (lazy-seq
-     (cons (row n) (pascals-rows (inc n))))))
-
-(def triangle (pascals-rows))
+(def triangle (iterate next-row [1]))

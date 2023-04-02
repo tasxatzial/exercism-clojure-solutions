@@ -1,6 +1,6 @@
 (ns meetup)
 
-;; solution 2: non-functional approach
+;; non-functional approach
 
 (def week-day-count 7)
 

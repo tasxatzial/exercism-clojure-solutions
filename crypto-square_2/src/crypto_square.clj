@@ -1,7 +1,5 @@
 (ns crypto-square)
 
-;; solution 2
-
 (defn normalize-plaintext
   "Keeps letters and numbers, converts to lowercase."
   [s]

@@ -18,6 +18,20 @@
   (and (> (count digits) 1)
        (every? #(<= 0 % 9) digits)))
 
+(defn transform
+  "Transforms the value at the given index according to the luhn
+  formula:
+  1) Values at odd indices remain the same.
+  2) Values at even indices are doubled and then reduced by 9 if
+  result is > 9."
+  [idx val]
+  (if (odd? idx)
+    val
+    (let [dval (* 2 val)]
+      (if (> dval 9)
+        (- dval 9)
+        dval))))
+
 (defn luhn-value
   "Returns the value of a number according to the luhn
   formula. The number is represented by a collection of its digits."
@@ -25,16 +39,10 @@
   (let [padded-digits (if (even? (count digits))
                         digits
                         (cons 0 digits))]
-    (loop [result 0
-           padded-digits padded-digits]
-      (if (seq padded-digits)
-        (let [[d1 d2 & rest-digits] padded-digits]
-          (let [doubled-d1 (* 2 d1)]
-            (if (> doubled-d1 9)
-              (recur (+ result d2 (- doubled-d1 9)) rest-digits)
-              (recur (+ result d2 doubled-d1) rest-digits))))
-        result))))
-      
+    (->> padded-digits
+         (map-indexed transform)
+         (apply +))))
+
 (defn valid?
   "Returns true if the given string represents a valid
   luhn number, false otherwise."
