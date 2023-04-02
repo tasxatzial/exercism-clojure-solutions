@@ -17,21 +17,3 @@
         steps
         (recur (collatz-next n) (inc steps))))
     (throw (Exception.))))
-
-;; ---------------------------------------------------------
-;; solution 2: lazy
-
-(defn collatz-seq
-  "Returns a lazy seq of the numbers produced by the collatz
-  conjecture algorithm for the given n."
-  [n]
-  (lazy-seq
-    (when (not= n 1)
-      (cons n (collatz-seq (collatz-next n))))))
-
-(defn collatz2
-  "Returns the number of steps required to reach 1."
-  [n]
-  (if (pos-int? n)
-    (count (collatz-seq n))
-    (throw (Exception.))))
