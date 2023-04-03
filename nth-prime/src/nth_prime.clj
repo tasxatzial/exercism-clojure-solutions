@@ -1,20 +1,23 @@
 (ns nth-prime)
 
-(defn prime?
-  "Returns true if N is prime. This will happen if N is not a multiple
-  of any number in the given list of primes."
+;; non-lazy
+
+(defn- prime?
+  "Returns true if N is prime. This will happen if N is a not multiple
+  of any number in the given vector of primes."
   [N primes]
-  (reduce (fn [result prime]
-            (if (> prime (inc (Math/sqrt N)))
+  (let [sqrt-N (Math/sqrt N)]
+    (reduce (fn [result prime]
+            (if (> prime sqrt-N)
               (reduced true)
               (if (= 0 (mod N prime))
                 (reduced false)
                 result)))
           true
-          primes))
+          primes)))
 
-(defn primes
-  "Returns all primes in [2, n]."
+(defn- primes
+  "Returns the first n primes."
   [n]
   (loop [n n
          result []
