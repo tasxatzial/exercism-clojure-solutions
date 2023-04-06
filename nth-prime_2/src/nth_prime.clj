@@ -17,7 +17,7 @@
             primes)))
 
 (defn- add-next-prime
-  "Adds the next prime to the given vector of primes."
+  "Adds the next prime to the given vector of all previous primes."
   [primes]
   (let [n (inc (peek primes))]
     (loop [n n]
@@ -26,10 +26,12 @@
         (recur (inc n))))))
 
 (defn gen-primes-seq
-  "Returns a lazy sequence of vectors of primes
-  [2] [2 3] [2 3 5] [2 3 5 7] ..."
-  []
-  (iterate add-next-prime [2]))
+  "Returns a lazy sequence of primes."
+  ([]
+   (gen-primes-seq [2]))
+  ([primes]
+   (lazy-seq
+     (cons (peek primes) (gen-primes-seq (add-next-prime primes))))))
 
 (def primes-seq (gen-primes-seq))
 
@@ -37,4 +39,4 @@
   [n]
   (if (zero? n)
     (throw (IllegalArgumentException.))
-    (peek (nth primes-seq (dec n)))))
+    (nth primes-seq (dec n))))
