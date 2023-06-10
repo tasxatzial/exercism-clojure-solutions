@@ -1,23 +1,16 @@
 (ns largest-series-product)
 
-(defn string-int->digits
-  "Converts a string that represents a non-negative integer
-  to a sequence of its digits (integers)."
-  [s]
-  (map #(Character/digit ^char % 10) s))
-
-(defn valid-digits?
-  "Returns true if the given collection contains only integers
-  between 0 and 9, false otherwise."
-  [digits]
-  (every? #(<= 0 % 9) digits))
+(defn invalid-input?
+  [n digits]
+  (or (neg? n)
+      (and (pos? n) (empty? digits))
+      (> n (count digits))
+      (not-every? #(<= 0 % 9) digits)))
 
 (defn largest-product
   [n s]
-  (let [digits (string-int->digits s)]
-    (if (or (neg? n)
-            (and (pos? n) (empty? digits))
-            (not (valid-digits? digits)))
+  (let [digits (map #(Character/digit ^char % 10) s)]
+    (if (invalid-input? n digits)
       (throw (Exception.))
       (if (zero? n)
         1
