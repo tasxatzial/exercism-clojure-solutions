@@ -16,7 +16,7 @@
   (-> s count Math/sqrt Math/ceil Math/round))
 
 (defn plaintext-segments
-  "Partitions the normalized string of s into a seq of strings.
+  "Partitions the normalized string of s into a sequence of strings.
   The number of strings and their size are determined by the
   square-size function."
   [s]
@@ -27,8 +27,8 @@
          (map #(apply str %)))))
 
 (defn interleave-all
-  "Returns a collection that consists of a seq of the first elements of
-  each of the collections, then a seq of the second elements etc.
+  "Returns a collection that consists of a sequence of the first elements of
+  each of the collections, then a sequence of the second elements etc.
   Assumes that the first collection is the longest one. Non-existing
   elements are replaced with nil."
   [colls]

@@ -7,7 +7,7 @@
 
 (defn bin->dec-values
   "Converts a string that represents a non-negative binary
-  number to a seq of the decimal values of its digits."
+  number to a sequence of the decimal values of its digits."
   [s]
   (map bin-char->dec s))
 

@@ -23,7 +23,7 @@
        (remove #(= % \-))
        (map get-char-val)
        (map * (range 10 0 -1))
-       (apply +)))
+       (reduce +)))
 
 (defn valid-isbn-val?
   "Returns true if the value of the string according to

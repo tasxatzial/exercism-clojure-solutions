@@ -16,7 +16,7 @@
   (-> s count Math/sqrt Math/ceil Math/round))
 
 (defn partition-into-square
-  "Partitions the normalized string of s into a seq of lists of
+  "Partitions the normalized string of s into a sequence of lists of
   n = (square-size (norm s)) characters each. Lists that have less
   than n items are padded with the given character."
   [s pad]
@@ -25,7 +25,7 @@
     (partition segment-length segment-length (repeat pad) normalized)))
 
 (defn plaintext-segments
-  "Partitions the normalized string of s into a seq of strings.
+  "Partitions the normalized string of s into a sequence of strings.
   The number of strings and their size are determined by the
   square-size function."
   [s]

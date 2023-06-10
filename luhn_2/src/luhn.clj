@@ -7,7 +7,7 @@
 
 (defn string->digits
   "Converts a string that represents a non-negative integer
-  to a seq of its digits (integers)."
+  to a sequence of its digits (integers)."
   [s]
   (map #(- (int %) 48) s))
 
@@ -41,7 +41,7 @@
                         (cons 0 digits))]
     (->> padded-digits
          (map-indexed transform)
-         (apply +))))
+         (reduce +))))
 
 (defn valid?
   "Returns true if the given string represents a valid

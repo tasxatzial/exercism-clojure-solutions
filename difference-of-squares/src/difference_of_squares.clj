@@ -10,14 +10,14 @@
        inc
        (range 1)
        (map square)
-       (apply +)))
+       (reduce +)))
 
 (defn square-of-sum
   [N]
   (->> N
        inc
        (range 1)
-       (apply +)
+       (reduce +)
        square))
 
 (defn difference

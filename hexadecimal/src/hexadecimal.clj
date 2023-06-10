@@ -10,7 +10,7 @@
 
 (defn hex->dec-values
   "Converts a string that represents a non-negative hexadecimal
-  number to a seq of the decimal values of its digits."
+  number to a sequence of the decimal values of its digits."
   [s]
   (map hex-char->dec s))
 

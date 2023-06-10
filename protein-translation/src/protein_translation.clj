@@ -20,7 +20,7 @@
    "UAG" "STOP"})
 
 (defn partition-into-codons
-  "Partitions the given string into a seq of codons."
+  "Partitions the given string into a sequence of codons."
   [s]
   (->> s
        (partition 3)

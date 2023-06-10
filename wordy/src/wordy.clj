@@ -16,7 +16,7 @@
       (string->op s))))
 
 (defn parse-string
-  "Parses the given string into a seq of symbols
+  "Parses the given string into a sequence of symbols
   (numbers or functions)."
   [s]
   (->> s

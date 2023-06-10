@@ -2,7 +2,7 @@
 
 (defn string-int->digits
   "Converts a string that represents a non-negative integer
-  to a seq of its digits (integers)."
+  to a sequence of its digits (integers)."
   [s]
   (map #(Character/digit ^char % 10) s))
 
@@ -23,5 +23,5 @@
         1
         (->> digits
              (partition n 1)
-             (map #(apply * %))
+             (map #(reduce * %))
              (apply max))))))

@@ -14,7 +14,7 @@
   (->> word
        clojure.string/lower-case
        (map letter-scores)
-       (apply +)))
+       (reduce +)))
 
 (defn score-letter
   [word]

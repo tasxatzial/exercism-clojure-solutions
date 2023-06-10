@@ -16,7 +16,7 @@
       (recur (next-row row) (dec N)))))
 
 (defn pascals-rows
-  "Returns a lazy seq of the rows of pascal's triangle."
+  "Returns a lazy sequence of the rows of pascal's triangle."
   ([]
    (pascals-rows 1))
   ([n]

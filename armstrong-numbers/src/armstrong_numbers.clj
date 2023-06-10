@@ -1,7 +1,7 @@
 (ns armstrong-numbers)
 
 (defn int->digits
-  "Converts a non-negative integer to a seq of its digits."
+  "Converts a non-negative integer to a sequence of its digits."
   [n]
   (->> n
        str
