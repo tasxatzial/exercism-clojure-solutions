@@ -20,16 +20,10 @@
            (apply str))
       ch)))
 
-(def encode-transform
-  "Encoding transducer. Transforms a string to its encoded chunks."
-  (comp
-    (partition-by identity)
-    (map encode-rule)))
-
 (defn run-length-encode
   [s]
   (->> s
-       (transduce encode-transform conj)
+       (into [] (comp (partition-by identity) (map encode-rule)))
        (apply str)))
 
 (defn run-length-decode
