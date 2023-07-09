@@ -9,7 +9,7 @@
   "Converts a string that represents a non-negative integer
   to a sequence of its digits (integers)."
   [s]
-  (map #(- (int %) 48) s))
+  (map #(Character/digit ^char % 10) s))
 
 (defn valid-int?
   "Returns true if the given collection consists of numbers from 0 to 9,
