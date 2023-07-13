@@ -1,22 +1,22 @@
 (ns complex-numbers)
 
 (defn real
-  "Returns the real part of a complex number a + bI."
-  [[a _]]
-  a)
+  "Returns the real part of the complex number c."
+  [c]
+  (first c))
 
 (defn imaginary
-  "Returns the imaginary part of a complex number a + bI."
-  [[_ b]]
-  b)
+  "Returns the imaginary part of the complex number c."
+  [c]
+  (second c))
 
 (defn abs
-  "Returns the absolute value of a complex number a + bI."
+  "Returns the absolute value of the complex number a + bI."
   [[a b]]
   (Math/sqrt (+ (* a a) (* b b))))
 
 (defn conjugate
-  "Returns the conjugate of a complex number a + bI."
+  "Returns the conjugate of the complex number a + bI."
   [[a b]]
   [a (- 0 b)])
 
@@ -39,6 +39,6 @@
 (defn div
   "Divides a + bI by c + dI."
   [[a b] [c d]]
-  (let [denom (float (+ (* c c) (* d d)))]
-    [(/ (+ (* a c) (* b d)) denom)
-     (/ (- (* b c) (* a d)) denom)]))
+  (let [denominator (+ (* c c) (* d d))]
+    [(/ (+ (* a c) (* b d)) denominator)
+     (/ (- (* b c) (* a d)) denominator)]))
