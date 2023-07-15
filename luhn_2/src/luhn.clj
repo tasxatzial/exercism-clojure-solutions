@@ -1,10 +1,5 @@
 (ns luhn)
 
-(defn remove-spaces
-  "Removes spaces from the given string."
-  [s]
-  (remove #(= \space %) s))
-
 (defn string->digits
   "Converts a string that represents a non-negative integer
   to a sequence of its digits (integers)."
@@ -17,6 +12,12 @@
   [digits]
   (and (> (count digits) 1)
        (every? #(<= 0 % 9) digits)))
+
+(defn pad
+  [digits]
+  (if (even? (count digits))
+    digits
+    (conj digits 0)))
 
 (defn transform
   "Transforms the value at the given index according to the luhn
@@ -36,9 +37,7 @@
   "Returns the value of a number according to the luhn
   formula. The number is represented by a collection of its digits."
   [digits]
-  (let [padded-digits (if (even? (count digits))
-                        digits
-                        (cons 0 digits))]
+  (let [padded-digits (pad digits)]
     (->> padded-digits
          (map-indexed transform)
          (reduce +))))
@@ -47,6 +46,6 @@
   "Returns true if the given string represents a valid
   luhn number, false otherwise."
   [s]
-  (let [digits (string->digits (remove-spaces s))]
+  (let [digits (string->digits (remove #{\space} s))]
     (and (valid-int? digits)
          (int? (/ (luhn-value digits) 10)))))
