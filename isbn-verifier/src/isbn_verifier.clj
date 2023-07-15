@@ -16,7 +16,7 @@
   "Computes the value of a string according to the ISBN formula.
   The string must be a valid ISBN pattern."
   [s]
-  (->> (remove #(= % \-) s)
+  (->> (remove #{\-} s)
        (map get-char-val)
        (map * (range 10 0 -1))
        (reduce +)))
