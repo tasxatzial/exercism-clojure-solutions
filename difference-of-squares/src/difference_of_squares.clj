@@ -2,22 +2,16 @@
 
 (defn square
   [x]
-  (* x x))
+  (*' x x))
 
 (defn sum-of-squares
   [N]
-  (->> N
-       inc
-       (range 1)
-       (map square)
-       (reduce +)))
+  (transduce (map square) +' (range 1 (inc N))))
 
 (defn square-of-sum
   [N]
-  (->> N
-       inc
-       (range 1)
-       (reduce +)
+  (->> (range 1 (inc N))
+       (reduce +')
        square))
 
 (defn difference
