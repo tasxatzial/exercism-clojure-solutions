@@ -1,6 +1,6 @@
 (ns cars-assemble)
 
-(def get-success-rate
+(def production-speed->success-rate
   {0 0,
    1 1, 2 1, 3 1, 4 1,
    5 0.9, 6 0.9, 7 0.9, 8 0.9,
@@ -16,7 +16,7 @@
   "Returns the assembly line's production rate per hour,
    taking into account its success rate."
   [speed]
-  (let [success-rate (get-success-rate speed)
+  (let [success-rate (production-speed->success-rate speed)
         produced-cars (get-produced-cars speed)]
     (* success-rate produced-cars)))
 
