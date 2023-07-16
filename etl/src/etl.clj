@@ -2,9 +2,10 @@
 
 (defn transform
   [source]
-  (reduce (fn [result [score words]]
-            (->> words
-                 (map #(vector (clojure.string/lower-case %) score))
-                 (into result)))
+  (reduce (fn [res-final [score words]]
+            (reduce (fn [res word]
+                      (assoc res (clojure.string/lower-case word) score))
+                    res-final
+                    words))
           {}
           source))
