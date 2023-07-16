@@ -15,5 +15,5 @@
   [s]
   (->> s
        clojure.string/lower-case
-       (transduce encode-transform conj)
+       (into [] encode-transform)
        (clojure.string/join " ")))
