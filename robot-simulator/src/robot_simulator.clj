@@ -17,7 +17,7 @@
    :west :south
    :south :east})
 
-(def direction->coordinate-diff
+(def direction->update-vector
   {:north [:y inc]
    :east [:x inc]
    :west  [:x dec]
@@ -31,19 +31,17 @@
   [robot]
   (update robot :bearing turn-right))
 
-(defn move-robot
+(defn advance-robot
   [robot]
-  (let [[k f] (-> robot :bearing direction->coordinate-diff)]
+  (let [[k f] (-> :bearing robot direction->update-vector)]
     (update-in robot [:coordinates k] f)))
-
-(def instruction->callback
-  {\L turn-robot-left
-   \R turn-robot-right
-   \A move-robot})
 
 (defn execute-instruction
   [robot instruction]
-  ((instruction->callback instruction) robot))
+  (case instruction
+    \L (turn-robot-left robot)
+    \R (turn-robot-right robot)
+    \A (advance-robot robot)))
 
 (defn simulate
   [instructions robot]
