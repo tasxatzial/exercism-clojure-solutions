@@ -1,30 +1,24 @@
 (ns matching-brackets)
 
-(def get-closing-bracket {\{ \},
-                          \( \),
-                          \[ \]})
+(def brackets-v
+  [\{ \} \( \) \[ \]])
 
-(def brackets (-> #{}
-                  (into (keys get-closing-bracket))
-                  (into (vals get-closing-bracket))))
+(def l-bracket->r-bracket {\{ \} \( \) \[ \]})
 
-(defn opening-bracket?
-  "Returns true if c is an opening bracket, else false."
+(def brackets #{\{ \} \( \) \[ \]})
+
+(defn l-bracket?
   [c]
-  (contains? get-closing-bracket c))
+  (contains? l-bracket->r-bracket c))
 
-;; using a vector as stack
 (defn valid?
-  "Returns true if the given string has properly
-  matched brackets, else false."
   [s]
   (loop [stack []
-         [curr-bracket & rest-brackets] (filter brackets s)]
-    (if curr-bracket
-      (if (opening-bracket? curr-bracket)
-        (recur (conj stack curr-bracket) rest-brackets)
-        (let [stack-top-bracket (peek stack)]
-          (if (= curr-bracket (get-closing-bracket stack-top-bracket))
-            (recur (pop stack) rest-brackets)
-            false)))
+         brackets (filter brackets s)]
+    (if-let [bracket (first brackets)]
+      (if (l-bracket? bracket)
+        (recur (conj stack bracket) (rest brackets))
+        (if (= bracket (l-bracket->r-bracket (peek stack)))
+          (recur (pop stack) (rest brackets))
+          false))
       (empty? stack))))
