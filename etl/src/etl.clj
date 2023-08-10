@@ -1,11 +1,12 @@
 (ns etl)
 
+(defn add-same-scored-letters
+  [result [score letters]]
+  (reduce (fn [result letter]
+            (assoc result (clojure.string/lower-case letter) score))
+          result
+          letters))
+
 (defn transform
   [source]
-  (reduce (fn [res-final [score words]]
-            (reduce (fn [res word]
-                      (assoc res (clojure.string/lower-case word) score))
-                    res-final
-                    words))
-          {}
-          source))
+  (reduce add-same-scored-letters {} source))
