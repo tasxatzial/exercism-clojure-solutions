@@ -1,38 +1,23 @@
 (ns protein-translation)
 
-(def codon->protein
-  {"AUG" "Methionine"
-   "UUU" "Phenylalanine"
-   "UUC" "Phenylalanine"
-   "UUA" "Leucine"
-   "UUG" "Leucine"
-   "UCU" "Serine"
-   "UCC" "Serine"
-   "UCA" "Serine"
-   "UCG" "Serine"
-   "UAU" "Tyrosine"
-   "UAC" "Tyrosine"
-   "UGU" "Cysteine"
-   "UGC" "Cysteine"
-   "UGG" "Tryptophan"
-   "UAA" "STOP"
-   "UGA" "STOP"
-   "UAG" "STOP"})
-
-(defn partition-into-codons
-  "Partitions the given string into a sequence of codons."
-  [s]
-  (->> s
-       (partition 3)
-       (map #(apply str %))))
+;; non-lazy
 
 (defn translate-codon
-  [s]
-  (get codon->protein s))
+  [codon]
+  (case codon
+    "AUG" "Methionine"
+    ("UUU" "UUC") "Phenylalanine"
+    ("UUA" "UUG") "Leucine"
+    ("UCU" "UCC" "UCA" "UCG") "Serine"
+    ("UAU" "UAC") "Tyrosine"
+    ("UGU" "UGC") "Cysteine"
+    "UGG" "Tryptophan"
+    ("UAA" "UGA" "UAG") "STOP"))
 
 (defn translate-rna
   [s]
-  (->> s
-       partition-into-codons
-       (map codon->protein)
-       (take-while #(not= "STOP" %))))
+  (->> (range (/ (.length s) 3))
+       (into [] (comp
+                  (map #(subs s (* % 3) (* (inc %) 3)))
+                  (map translate-codon)
+                  (take-while #(not= "STOP" %))))))
