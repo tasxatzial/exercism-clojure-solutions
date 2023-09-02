@@ -6,7 +6,7 @@
   [s]
   (map #(Character/digit ^char % 10) s))
 
-(defn valid-int?
+(defn valid-number?
   "Returns true if digits consists of numbers from 0 to 9 and has
   more than 1 elements, false otherwise."
   [digits]
@@ -38,5 +38,5 @@
   luhn number, false otherwise."
   [s]
   (let [digits (string->digits (remove #{\space} s))]
-    (and (valid-int? digits)
+    (and (valid-number? digits)
          (int? (/ (luhn-value digits) 10)))))
