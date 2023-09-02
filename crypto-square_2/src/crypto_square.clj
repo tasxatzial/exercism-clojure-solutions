@@ -27,7 +27,7 @@
          (map #(apply str %)))))
 
 (defn interleave-all
-  "Returns a collection that consists of a sequence of the first elements of
+  "Returns a vector that consists of a sequence of the first elements of
   each of the collections, then a sequence of the second elements etc.
   Assumes that the first collection is the longest one. Non-existing
   elements are replaced with nil."

@@ -38,6 +38,6 @@
             (to-list (right node)))))
 
 (defn from-list
-  "Creates a tree from the given collection of values."
-  [coll]
-  (reduce #(insert %2 %1) nil coll))
+  "Creates a tree from the given values."
+  [values]
+  (reduce #(insert %2 %1) nil values))

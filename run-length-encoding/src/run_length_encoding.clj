@@ -1,7 +1,7 @@
 (ns run-length-encoding)
 
 (defn encode-rule
-  "Encodes a sequence consisting of the same characters.
+  "Encodes a collection consisting of the same characters.
   E.g. (A A A) -> 3A"
   [coll]
   (let [cnt (count coll)]

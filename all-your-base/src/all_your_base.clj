@@ -6,8 +6,8 @@
   (and (> b 1) (integer? b)))
 
 (defn valid-digits?
-  "Returns true if the collection of decimal values
-  represents a valid number in the given base, else false."
+  "Returns true if the given decimal values represent a valid number
+  in the given base, else false."
   [decimal-vals base]
   (and (seq decimal-vals)
        (valid-base? base)
@@ -20,8 +20,8 @@
   (and (integer? n) (>= n 0)))
 
 (defn to-base10
-  "Converts a collection of decimal values that represent
-  a number in the given base to a base 10 number."
+  "Converts the given decimal values to the corresponding base 10 number
+  assuming they represent a number in the given base."
   [decimal-vals base]
   (when (valid-digits? decimal-vals base)
     (reduce #(+ %2 (* base %1))

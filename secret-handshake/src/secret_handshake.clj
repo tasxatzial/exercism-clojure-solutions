@@ -1,7 +1,7 @@
 (ns secret-handshake)
 
 (defn to-binary
-  "Returns a list the represents the binary form of n."
+  "Converts n to its binary representation, that is, a list of 0 and 1."
   [n]
   (loop [result ()
          n n]
@@ -12,7 +12,7 @@
         (recur (conj result r) q)))))
 
 (defn zero-prefix
-  "Adds the required number of 0 in front of coll so that its
+  "Prepends the required number of zeros to coll so that its
   final size is n."
   [n coll]
   (concat (take (- n (count coll)) (repeat 0))

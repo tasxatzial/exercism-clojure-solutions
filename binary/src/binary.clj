@@ -12,14 +12,14 @@
   (map bin-char->dec s))
 
 (defn valid-bin?
-  "Returns true if the collection of decimal values represents a valid
+  "Returns true if the given decimal values represent a valid
   binary number, false otherwise."
   [decimal-values]
   (every? #(<= 0 % 1) decimal-values))
 
 (defn compute-decimal
-  "Given a collection of decimal values (0 <= val < 2) that represents
-  a binary number, it computes the number in base 10."
+  "Converts the given decimal values to the corresponding base 10 number
+  assuming they represent a binary number."
   [decimal-values]
   (when (valid-bin? decimal-values)
     (reduce #(+ %2 (* 2 %1))

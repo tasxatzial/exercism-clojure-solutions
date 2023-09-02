@@ -7,7 +7,7 @@
     (mapv +' zero-append (rseq zero-append))))
 
 (defn row
-  "Returns the Nth row of pascal's triangle."
+  "Returns the Nth row of pascal's triangle as a vector."
   [N]
   (loop [row [1]
          N N]

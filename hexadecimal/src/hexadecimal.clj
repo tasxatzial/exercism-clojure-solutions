@@ -15,14 +15,14 @@
   (map hex-char->dec s))
 
 (defn valid-hex?
-  "Returns true if the collection of decimal values represents a valid
+  "Returns true if the given decimal values represent a valid
   hexadecimal number, false otherwise."
   [decimal-values]
   (every? #(<= 0 % 15) decimal-values))
 
 (defn compute-decimal
-  "Given a collection of decimal values (0 <= val < 16) that represents
-  a hexadecimal number, it computes the number in base 10."
+  "Converts the given decimal values to the corresponding base 10 number
+  assuming they represent a hexadecimal number."
   [decimal-values]
   (when (valid-hex? decimal-values)
     (reduce #(+ %2 (* 16 %1))

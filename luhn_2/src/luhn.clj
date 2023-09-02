@@ -7,8 +7,8 @@
   (map #(Character/digit ^char % 10) s))
 
 (defn valid-int?
-  "Returns true if the given collection consists of numbers from 0 to 9,
-  else false. Collections with less than 2 items are considered invalid."
+  "Returns true if digits consists of numbers from 0 to 9 and has
+  more than 1 elements, false otherwise."
   [digits]
   (and (> (count digits) 1)
        (every? #(<= 0 % 9) digits)))
@@ -34,8 +34,8 @@
         dval))))
 
 (defn luhn-value
-  "Returns the value of a number according to the luhn
-  formula. The number is represented by a collection of its digits."
+  "Returns the value of the given sequence of digits according to the
+  luhn formula."
   [digits]
   (let [padded-digits (pad digits)]
     (->> padded-digits
