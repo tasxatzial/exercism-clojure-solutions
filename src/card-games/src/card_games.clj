@@ -54,7 +54,6 @@
   "If the last card is a Jack (11), doubles its value
    before returning the hand."
   [hand]
-  (let [last-card (last hand)]
-    (if (= Jack last-card)
-      (apply list (concat (drop-last hand) [(* 2 last-card)]))
-      hand)))
+  (if (= Jack (last hand))
+    (apply list (concat (drop-last hand) [(* 2 Jack)]))
+    hand))
