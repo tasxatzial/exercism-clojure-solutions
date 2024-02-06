@@ -16,8 +16,9 @@
   "Returns the deck with first two items reversed."
   [deck]
   (let [[f s & rest-cards] deck]
-    (into rest-cards [f s])))
+    (into [s f] rest-cards)))
 
+;; this function does not do what its name implies
 (defn discard-top-card
   "Returns a vector containing the first card and
    a list of the remaining cards in the deck."
@@ -31,7 +32,7 @@
 (defn insert-face-cards
   "Returns the deck with face cards between its head and tail."
   [deck]
-  (if (empty? deck)
-    face-cards
-    (let [[f & rest-cards] deck]
-      (cons f (concat face-cards rest-cards)))))
+  (let [[f] deck]
+    (if f
+      (into (into [f] face-cards) (rest deck))
+      face-cards)))
