@@ -7,7 +7,7 @@
 The Clojure exercises on Exercism ship with a `deps.edn` file with a `:test` alias to invoke the [cognitect-labs test-runner](https://github.com/cognitect-labs/test-runner):
 
 ``` bash
-$ clj -X:test
+clj -X:test
 ```
 
 ## Leiningen
@@ -18,37 +18,9 @@ Leiningen can also be used to run the exercise's test by running the following c
 lein test
 ```
 
-## REPL
-
-To use the REPL to run the exercise's test, run the following command from the exercise's directory:
-
-```bash
-$ clj
-```
-
--or-
-
-```bash
-$ lein repl
-```
-
-Then `require` the exercise's test namespace and the Clojure test namespace):
-
-```clojure
-;; replace <exercise> with the exercise's name
-=> (require '<exercise>-test)
-```
-
-Then call `run-tests` on `<exercise>-test`:
-
-```clojure
-;; replace <exercise> with the exercise's name
-=> (clojure.test/run-tests '<exercise>-test)
-```
-
 ## Submitting your solution
 
-You can submit your solution using the `exercism submit src/<exercise>.clj` command.
+You can submit your solution using the `exercism submit src/dominoes.clj` command.
 This command will upload your solution to the Exercism website and print the solution page's URL.
 
 It's possible to submit an incomplete solution which allows you to:
