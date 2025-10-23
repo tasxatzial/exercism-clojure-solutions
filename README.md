@@ -4,4 +4,4 @@
 
 ---
 
-This repo contains my solutions to the problems on the Clojure track.
+This repo contains my solutions to the exercises on the Clojure track.
